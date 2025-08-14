@@ -1,5 +1,5 @@
 YEARS_SECTIONS = {
-        '3': ['A','B', 'C', 'D', 'E'],
+        '3': ['A','B', 'C', 'D', 'E', 'F'],
         '5': ['A','B', 'C', 'D'],
         '7': ['A', 'B', 'C', 'D']
     }
@@ -11,6 +11,7 @@ SUBJECTS_PER_YEAR = {
         'OPERATING SYSTEM': 3,
         'DATA STRUCTURES & APPLICATIONS': 3,
         'SOCIAL CONNECT & RESPONSIBILITY': 1,
+        'OBJECT ORIENTED PROGRAMMING WITH JAVA': 2
     },
     '5': { 
         'SOFTWARE ENGINERING & PROJECT MANAGEMENT': 4,
@@ -30,12 +31,23 @@ SUBJECTS_PER_YEAR = {
 
 # All section-subject pairs assigned to a teacher:
 TEACHER_ASSIGNMENTS = {
-    'X': [
+    'X1': [
         ('3A', 'MATHEMATICS FOR COMPUTER SCIENCE'),
+    ],
+    'X2': [
+        
         ('3B', 'MATHEMATICS FOR COMPUTER SCIENCE'),
+    ],
+    'X3': [
         ('3C', 'MATHEMATICS FOR COMPUTER SCIENCE'),
+    ],
+    'X4': [
         ('3D', 'MATHEMATICS FOR COMPUTER SCIENCE'),
+    ],
+    'X5': [
         ('3E', 'MATHEMATICS FOR COMPUTER SCIENCE'),
+    ],
+    'X6': [
         ('3F', 'MATHEMATICS FOR COMPUTER SCIENCE'),
     ],
     'SHWETHA K R': [
@@ -46,6 +58,7 @@ TEACHER_ASSIGNMENTS = {
     ],
     'VIJAYALAKSHMI M M':[
         ('3A', 'OPERATING SYSTEM'),
+        ('3A', 'OBJECT ORIENTED PROGRAMMING WITH JAVA'),
         ('7B', 'BIG DATA ANALYTICS')
     ],
     'SUPRIYA':[
@@ -85,7 +98,8 @@ TEACHER_ASSIGNMENTS = {
     ],
     'PRAVEEN KUMAR B':[
         ('3D', 'DIGITAL DESIGN & COMPUTER ORGANIZATION'),
-        ('5B', 'RESEARCH METHODOLOGY & IPR')
+        ('5B', 'RESEARCH METHODOLOGY & IPR'),
+        ('3F', 'OBJECT ORIENTED PROGRAMMING WITH JAVA')
     ],
     'RAMYA':[
         ('3D', 'OPERATING SYSTEM'),
@@ -97,6 +111,7 @@ TEACHER_ASSIGNMENTS = {
     ],
     'SHEETAL':[
         ('3D', 'SOCIAL CONNECT & RESPONSIBILITY'),
+        ('3F', 'SOCIAL CONNECT & RESPONSIBILITY'),
         ('5B', 'COMPUTER NETWORKS'),
         ('7D', 'CRYPTOGRAPHY & NETWORK SECURITY')
     ],
@@ -116,6 +131,7 @@ TEACHER_ASSIGNMENTS = {
     ],
     'MALA M':[
         ('3E', 'SOCIAL CONNECT & RESPONSIBILITY'),
+        ('3B', 'OBJECT ORIENTED PROGRAMMING WITH JAVA'),
         ('5B', 'ARTIFICIAL INTELIGENCE'),
         ('5D', 'RESEARCH METHODOLOGY & IPR')
     ],
@@ -129,11 +145,14 @@ TEACHER_ASSIGNMENTS = {
     ],
     'MURALI':[
         ('5A', 'ARTIFICIAL INTELIGENCE'),
+        ('3D', 'OBJECT ORIENTED PROGRAMMING WITH JAVA')
     ],
     'RADHA':[
         ('5A', 'RESEARCH METHODOLOGY & IPR'),
+        ('3E', 'OBJECT ORIENTED PROGRAMMING WITH JAVA')
     ],
     'RAMESH SHAHABADKAR':[
+        ('3F', 'OPERATING SYSTEM'),
         ('5A', 'ENVIRONMENTAL STUDIES AND E-WASTEMANAGEMENT'),
         ('7D', 'BIG DATA ANALYTICS')
     ],
@@ -151,8 +170,15 @@ TEACHER_ASSIGNMENTS = {
     'R NAGARAJ':[
         ('7A', 'BIG DATA ANALYTICS')
     ],
-    'SRINIVASA SETTY':[
-        ('7D', 'INTERNET OF THINGS')
+    'SRINIVAS SETTY':[
+        ('7D', 'INTERNET OF THINGS'),
+        ('3F', 'DIGITAL DESIGN & COMPUTER ORGANIZATION')
+    ],
+    'PARTHASARATHY':[
+        ('3C', 'OBJECT ORIENTED PROGRAMMING WITH JAVA')
+    ],
+    'SANJEEVAN':[
+        ('3F', 'DATA STRUCTURES & APPLICATIONS')
     ]
 }
 
@@ -160,3 +186,85 @@ PREBOOKED = {
     # 'Teacher1': [(0,0), (2,3)],   # Mon P1, Wed P4 blocked
     # 'Teacher2': [(1,4)],          # Tue P5 blocked
 }
+
+LAB_SUBJECTS = {
+    '3A': [
+        ('DDCO-LAB', 'SHWETHA K R'), 
+        ('OS-LAB', 'VIJAYALAKSHMI M M'), 
+        ('DSA-LAB', 'SUPRIYA'),
+        ('OOPS-LAB', 'VIJAYALAKSHMI M M'),
+        ('DV-LAB', 'VIJAYA NIRMALA')
+    ],
+    '3B': [
+        ('DDCO-LAB', 'DIVYA G S'), 
+        ('OS-LAB', 'GEENA'), 
+        ('DSA-LAB', 'PRIYANKA'),
+        ('OOPS-LAB', 'MALA M'),
+        ('DV-LAB', 'SHEETHAL')
+    ],
+    '3C': [
+        ('DDCO-LAB', 'SNIGDHA KESH'), 
+        ('OS-LAB', 'VEENA BHAT'), 
+        ('DSA-LAB', 'PALLAVI KV'),
+        ('OOPS-LAB', 'PARTHASARATHY'),
+        ('DV-LAB', 'VIJAYALAKSHMI')
+    ],
+    '3D': [
+        ('DDCO-LAB', 'PRAVEEN KUMAR B'), 
+        ('OS-LAB', 'RAMYA'), 
+        ('DSA-LAB', 'KARTHIGA'),
+        ('OOPS-LAB', 'MURALI'),
+        ('DV-LAB', 'VEENA BHAT')
+    ],
+    '3E': [
+        ('DDCO-LAB', 'SANGEETHA RAJ'), 
+        ('OS-LAB', 'NIRMALA'), 
+        ('DSA-LAB', 'BHAVYA'),
+        ('OOPS-LAB', 'RADHA'),
+        ('DV-LAB', 'ANAND KUMAR B')
+    ],
+    '3F': [
+        ('DDCO-LAB', 'SRINIVAS SETTY'), 
+        ('OS-LAB', 'RAMESH SHAHABADKAR'), 
+        ('DSA-LAB', 'SANJEEVAN'),
+        ('OOPS-LAB', 'PRAVEEN KUMAR'),
+        ('DV-LAB', 'RADHA')
+    ],
+
+    '5A': [
+        ('CN-LAB', 'MAHALAKSHMI B'), 
+        ('WEB-LAB', 'ANAND KUMAR B'), 
+    ],
+    '5B': [
+        ('CN-LAB', 'SHEETHAL'), 
+        ('WEB-LAB', 'BHAVYA'), 
+    ],
+    '5C': [
+        ('CN-LAB', 'SANGEETHA RAJ'), 
+        ('WEB-LAB', 'MURALI'), 
+    ],
+    '5D': [
+        ('CN-LAB', 'YUVARAJ B N, RABHIRDANATH'), 
+        ('WEB-LAB', 'GEENA'), 
+    ],
+
+    '7A': [
+        ('IOT-LAB', 'MAHALAKSHMI B'), 
+        ('PC-LAB', 'SHWETHA K R'), 
+    ],
+    '7B': [
+        ('IOT-LAB', 'JAYA KARUNA'), 
+        ('PC-LAB', 'VIJAYA NIRMALA'), 
+    ],
+    '7C': [
+        ('IOT-LAB', 'RAMYA'), 
+        ('PC-LAB', 'GEENA'), 
+    ],
+    '7D': [
+        ('IOT-LAB', 'SRINIVASA SETTY'), 
+        ('PC-LAB', 'SNIGDHA KESH'), 
+    ],
+}
+
+DAYS = 5
+PERIODS = 6
