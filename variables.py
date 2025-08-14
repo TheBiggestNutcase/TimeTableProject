@@ -1,5 +1,5 @@
 YEARS_SECTIONS = {
-        '3': ['A','B', 'C', 'D', 'E'],
+        '3': ['A','B', 'C', 'D', 'E', 'F'],
         '5': ['A','B', 'C', 'D'],
         '7': ['A', 'B', 'C', 'D']
     }
@@ -58,7 +58,7 @@ TEACHER_ASSIGNMENTS = {
     ],
     'VIJAYALAKSHMI M M':[
         ('3A', 'OPERATING SYSTEM'),
-        ('3A', 'OBJECT ORIENTED VI PROGRAMMING WITH JAVA'),
+        ('3A', 'OBJECT ORIENTED PROGRAMMING WITH JAVA'),
         ('7B', 'BIG DATA ANALYTICS')
     ],
     'SUPRIYA':[
@@ -99,7 +99,7 @@ TEACHER_ASSIGNMENTS = {
     'PRAVEEN KUMAR B':[
         ('3D', 'DIGITAL DESIGN & COMPUTER ORGANIZATION'),
         ('5B', 'RESEARCH METHODOLOGY & IPR'),
-        ('3A', 'OBJECT ORIENTED PROGRAMMING WITH JAVA')
+        ('3F', 'OBJECT ORIENTED PROGRAMMING WITH JAVA')
     ],
     'RAMYA':[
         ('3D', 'OPERATING SYSTEM'),
@@ -111,6 +111,7 @@ TEACHER_ASSIGNMENTS = {
     ],
     'SHEETAL':[
         ('3D', 'SOCIAL CONNECT & RESPONSIBILITY'),
+        ('3F', 'SOCIAL CONNECT & RESPONSIBILITY'),
         ('5B', 'COMPUTER NETWORKS'),
         ('7D', 'CRYPTOGRAPHY & NETWORK SECURITY')
     ],
@@ -151,6 +152,7 @@ TEACHER_ASSIGNMENTS = {
         ('3E', 'OBJECT ORIENTED PROGRAMMING WITH JAVA')
     ],
     'RAMESH SHAHABADKAR':[
+        ('3F', 'OPERATING SYSTEM'),
         ('5A', 'ENVIRONMENTAL STUDIES AND E-WASTEMANAGEMENT'),
         ('7D', 'BIG DATA ANALYTICS')
     ],
@@ -168,11 +170,15 @@ TEACHER_ASSIGNMENTS = {
     'R NAGARAJ':[
         ('7A', 'BIG DATA ANALYTICS')
     ],
-    'SRINIVASA SETTY':[
-        ('7D', 'INTERNET OF THINGS')
+    'SRINIVAS SETTY':[
+        ('7D', 'INTERNET OF THINGS'),
+        ('3F', 'DIGITAL DESIGN & COMPUTER ORGANIZATION')
     ],
     'PARTHASARATHY':[
         ('3C', 'OBJECT ORIENTED PROGRAMMING WITH JAVA')
+    ],
+    'SANJEEVAN':[
+        ('3F', 'DATA STRUCTURES & APPLICATIONS')
     ]
 }
 
@@ -219,7 +225,7 @@ LAB_SUBJECTS = {
     ],
     '3F': [
         ('DDCO-LAB', 'SRINIVAS SETTY'), 
-        ('OS-LAB', 'RAMESH'), 
+        ('OS-LAB', 'RAMESH SHAHABADKAR'), 
         ('DSA-LAB', 'SANJEEVAN'),
         ('OOPS-LAB', 'PRAVEEN KUMAR'),
         ('DV-LAB', 'RADHA')
