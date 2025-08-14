@@ -31,12 +31,23 @@ SUBJECTS_PER_YEAR = {
 
 # All section-subject pairs assigned to a teacher:
 TEACHER_ASSIGNMENTS = {
-    'X': [
+    'X1': [
         ('3A', 'MATHEMATICS FOR COMPUTER SCIENCE'),
+    ],
+    'X2': [
+        
         ('3B', 'MATHEMATICS FOR COMPUTER SCIENCE'),
+    ],
+    'X3': [
         ('3C', 'MATHEMATICS FOR COMPUTER SCIENCE'),
+    ],
+    'X4': [
         ('3D', 'MATHEMATICS FOR COMPUTER SCIENCE'),
+    ],
+    'X5': [
         ('3E', 'MATHEMATICS FOR COMPUTER SCIENCE'),
+    ],
+    'X6': [
         ('3F', 'MATHEMATICS FOR COMPUTER SCIENCE'),
     ],
     'SHWETHA K R': [
