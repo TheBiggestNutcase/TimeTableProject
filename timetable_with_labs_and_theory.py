@@ -3,13 +3,8 @@ import random
 from collections import defaultdict
 from typing import Optional, Tuple
 from variables import YEARS_SECTIONS, SUBJECTS_PER_YEAR, TEACHER_ASSIGNMENTS
-
+from variables import LAB_SUBJECTS, PREBOOKED, DAYS, PERIODS, MAX_THEORY_PASSES, DEBUG_PLACEMENT
 # ------------ CONFIG -------------
-from variables import LAB_SUBJECTS, PREBOOKED, DAYS, PERIODS
-
-MAX_THEORY_PASSES = 10
-DEBUG_PLACEMENT = True
-
 
 # ------------ LAB SCHEDULER -------------
 class LabTimetable:
@@ -106,8 +101,10 @@ class TheoryTimetable:
         if not teacher:
             if debug: print(f"[NO TEACHER] {section} {subject}")
             return False
-        if section in self.lab_schedules and (self.lab_schedules[section]['B1'][day][period] or
-                                              self.lab_schedules[section]['B2'][day][period]):
+        if section in self.lab_schedules and (
+            self.lab_schedules[section]['B1'][day][period] or
+            self.lab_schedules[section]['B2'][day][period]
+        ):
             if debug: print(f"[LAB CONFLICT] {section} {subject} at {day},{period}")
             return False
         if self.class_schedules[section][day][period]:
@@ -141,14 +138,28 @@ class TheoryTimetable:
         for iteration in range(1, max_iterations+1):
             relax = iteration > max_iterations // 2
             print(f"\n--- Pass {iteration} (relax={relax}) ---")
+
+            # Year 4 priority: schedule them first each pass
+            year4_sections = [s for s in unplaced if s.startswith("7")]
+            other_sections = [s for s in unplaced if not s.startswith("7")]
+            random.shuffle(year4_sections)
+            random.shuffle(other_sections)
+            sections = year4_sections + other_sections
+
             placed_any = False
-            sections = list(unplaced.keys())
-            random.shuffle(sections)
             for sec in sections:
                 random.shuffle(unplaced[sec])
                 for subj in list(unplaced[sec]):
-                    day_periods = [(d, p) for d in range(self.days) for p in range(self.periods_per_day)]
-                    random.shuffle(day_periods)
+                    # Early period preference, strong for Year 4
+                    if sec.startswith("7"):  # Year 4
+                        period_order = [0, 1, 2, 3, 4, 5]
+                    else:
+                        early = [0, 1, 2]
+                        late = [3, 4, 5]
+                        random.shuffle(early)
+                        random.shuffle(late)
+                        period_order = early + late
+                    day_periods = [(d, p) for d in range(self.days) for p in period_order]
                     for d, p in day_periods:
                         if self.can_schedule(sec, d, p, subj, relax_rules=relax):
                             self.place_class(sec, d, p, subj)
@@ -167,9 +178,9 @@ class TheoryTimetable:
                             self.can_schedule(sec, d, p, subj, relax_rules=True, debug=True)
 
     def post_repair(self, unplaced):
-        """Try to fill by swapping or placing in any open slot."""
+        """Fill by swapping or placing with relaxed rules."""
         for sec in list(unplaced.keys()):
-            for subj in list(unplaced[sec]):  # copy so it's safe to modify original
+            for subj in list(unplaced[sec]):
                 teacher = self.section_subject_teacher.get((sec, subj))
                 if not teacher:
                     continue
@@ -178,20 +189,19 @@ class TheoryTimetable:
                     for p in range(self.periods_per_day):
                         if self.can_schedule(sec, d, p, subj, relax_rules=True):
                             self.place_class(sec, d, p, subj)
-                            if subj in unplaced[sec]:  # ✅ avoid ValueError
+                            if subj in unplaced[sec]:
                                 unplaced[sec].remove(subj)
                             placed = True
                             break
                         else:
-                            # Try swap only if this slot is empty in target section
                             for other_sec in self.class_schedules:
                                 other_slot = self.class_schedules[other_sec][d][p]
                                 if other_slot is not None:
                                     o_subj, _ = other_slot
-                                    if (self.can_schedule(sec, d, p, subj, relax_rules=True) and
-                                        self.can_schedule(other_sec, d, p, o_subj, relax_rules=True)):
+                                    if self.can_schedule(sec, d, p, subj, relax_rules=True) and \
+                                       self.can_schedule(other_sec, d, p, o_subj, relax_rules=True):
                                         self.class_schedules[sec][d][p] = (subj, teacher)
-                                        if subj in unplaced[sec]:  # ✅ avoid ValueError
+                                        if subj in unplaced[sec]:
                                             unplaced[sec].remove(subj)
                                         placed = True
                                         break
@@ -201,25 +211,24 @@ class TheoryTimetable:
                         break
 
 
-
 # ------------ MAIN -------------
 def main():
     random.seed(42)
     teacher_busy = defaultdict(lambda: [[False]*PERIODS for _ in range(DAYS)])
 
-    # 1. Schedule labs
+    # 1. Labs
     lab_gen = LabTimetable(LAB_SUBJECTS, teacher_busy, prebooked=PREBOOKED)
     lab_gen.generate_lab_pairs()
 
-    # 2. Schedule theory
+    # 2. Theory
     theory_gen = TheoryTimetable(YEARS_SECTIONS, SUBJECTS_PER_YEAR,
                                  TEACHER_ASSIGNMENTS, teacher_busy, lab_gen.lab_schedules)
     theory_gen.generate_timetable()
 
-    # 3. Print labs
+    # 3. Output labs
     lab_gen.print_lab_timetables()
 
-    # 4. Final merged timetable
+    # 4. Final timetable
     print("\n=== FINAL COMBINED TIMETABLE ===")
     days = ["Mon","Tue","Wed","Thu","Fri"]
     for sec in sorted(theory_gen.class_schedules):
