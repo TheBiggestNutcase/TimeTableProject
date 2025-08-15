@@ -3,8 +3,9 @@ import random
 from collections import defaultdict
 from typing import Optional, Tuple
 from variables import YEARS_SECTIONS, SUBJECTS_PER_YEAR, TEACHER_ASSIGNMENTS
-from variables import LAB_SUBJECTS, PREBOOKED, DAYS, PERIODS, MAX_THEORY_PASSES, DEBUG_PLACEMENT
+
 # ------------ CONFIG -------------
+from variables import LAB_SUBJECTS, PREBOOKED, DAYS, PERIODS, MAX_THEORY_PASSES, DEBUG_PLACEMENT 
 
 # ------------ LAB SCHEDULER -------------
 class LabTimetable:
@@ -46,13 +47,14 @@ class LabTimetable:
         for section, labs in self.lab_subjects.items():
             if len(labs) < 2:
                 continue
-            slots = [(d, s) for d in range(self.days) for s in [0, 2, 4]]
-            random.shuffle(slots)
+            # Prefer later start periods for labs (P5=4, then P3=2, then P1=0)
+            possible_slots = [(d, s) for d in range(self.days) for s in [4, 2, 0]]
+            random.shuffle(possible_slots)
             for i in range(len(labs)):
                 subj1, t1 = labs[i]
                 subj2, t2 = labs[(i+1) % len(labs)]
                 placed = False
-                for day, start in slots:
+                for day, start in possible_slots:
                     if labs_per_day[section][day] >= 2:
                         continue
                     if self.can_schedule_pair(section, subj1, t1, subj2, t2, day, start):
@@ -73,7 +75,8 @@ class LabTimetable:
                     row = f"{days[d]:<4}"
                     for p in range(self.periods_per_day):
                         slot = self.lab_schedules[section][batch][d][p]
-                        row += f"{(slot[0] if slot else '-'):^12}"
+                        display = slot[0] if slot else "-"
+                        row += f"{display:^12}"
                     print(row)
 
 
@@ -114,16 +117,16 @@ class TheoryTimetable:
             if debug: print(f"[TEACHER BUSY] {teacher} at {day},{period}")
             return False
         if not relax_rules:
-            if any(slot and slot[0] == subject for slot in self.class_schedules[section][day]):
+            if any(slot and slot == subject for slot in self.class_schedules[section][day]):
                 if debug: print(f"[ONCE/DAY FAIL] {section} {subject} on day {day}")
                 return False
             if period > 0 and self.class_schedules[section][day][period-1] and \
-               self.class_schedules[section][day][period-1][0] == subject:
-                if debug: print(f"[CONSEC BEFORE] {section} {subject} at {period}")
+               self.class_schedules[section][day][period-1] == subject:
+                if debug: print(f"[CONSEC BEFORE] {section} {subject} at p{period}")
                 return False
             if period < self.periods_per_day-1 and self.class_schedules[section][day][period+1] and \
-               self.class_schedules[section][day][period+1][0] == subject:
-                if debug: print(f"[CONSEC AFTER] {section} {subject} at {period}")
+               self.class_schedules[section][day][period+1] == subject:
+                if debug: print(f"[CONSEC AFTER] {section} {subject} at p{period}")
                 return False
         return True
 
@@ -139,7 +142,7 @@ class TheoryTimetable:
             relax = iteration > max_iterations // 2
             print(f"\n--- Pass {iteration} (relax={relax}) ---")
 
-            # Year 4 priority: schedule them first each pass
+            # Priority: Year 4 first
             year4_sections = [s for s in unplaced if s.startswith("7")]
             other_sections = [s for s in unplaced if not s.startswith("7")]
             random.shuffle(year4_sections)
@@ -150,8 +153,8 @@ class TheoryTimetable:
             for sec in sections:
                 random.shuffle(unplaced[sec])
                 for subj in list(unplaced[sec]):
-                    # Early period preference, strong for Year 4
-                    if sec.startswith("7"):  # Year 4
+                    # Early period preference
+                    if sec.startswith("7"):
                         period_order = [0, 1, 2, 3, 4, 5]
                     else:
                         early = [0, 1, 2]
@@ -159,7 +162,14 @@ class TheoryTimetable:
                         random.shuffle(early)
                         random.shuffle(late)
                         period_order = early + late
-                    day_periods = [(d, p) for d in range(self.days) for p in period_order]
+
+                    # Balance days: fewest scheduled first
+                    day_load = [(d, sum(1 for slot in self.class_schedules[sec][d] if slot)) for d in range(self.days)]
+                    day_load.sort(key=lambda x: x[1])
+                    days_by_load = [d for d, _ in day_load]
+
+                    day_periods = [(d, p) for d in days_by_load for p in period_order]
+
                     for d, p in day_periods:
                         if self.can_schedule(sec, d, p, subj, relax_rules=relax):
                             self.place_class(sec, d, p, subj)
@@ -178,7 +188,6 @@ class TheoryTimetable:
                             self.can_schedule(sec, d, p, subj, relax_rules=True, debug=True)
 
     def post_repair(self, unplaced):
-        """Fill by swapping or placing with relaxed rules."""
         for sec in list(unplaced.keys()):
             for subj in list(unplaced[sec]):
                 teacher = self.section_subject_teacher.get((sec, subj))
@@ -216,19 +225,15 @@ def main():
     random.seed(42)
     teacher_busy = defaultdict(lambda: [[False]*PERIODS for _ in range(DAYS)])
 
-    # 1. Labs
     lab_gen = LabTimetable(LAB_SUBJECTS, teacher_busy, prebooked=PREBOOKED)
     lab_gen.generate_lab_pairs()
 
-    # 2. Theory
     theory_gen = TheoryTimetable(YEARS_SECTIONS, SUBJECTS_PER_YEAR,
                                  TEACHER_ASSIGNMENTS, teacher_busy, lab_gen.lab_schedules)
     theory_gen.generate_timetable()
 
-    # 3. Output labs
     lab_gen.print_lab_timetables()
 
-    # 4. Final timetable
     print("\n=== FINAL COMBINED TIMETABLE ===")
     days = ["Mon","Tue","Wed","Thu","Fri"]
     for sec in sorted(theory_gen.class_schedules):
