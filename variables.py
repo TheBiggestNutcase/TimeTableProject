@@ -1,3 +1,8 @@
+DAYS = 5
+PERIODS = 6
+MAX_THEORY_PASSES = 10
+DEBUG_PLACEMENT = True
+
 YEARS_SECTIONS = {
         '3': ['A','B', 'C', 'D', 'E', 'F'],
         '5': ['A','B', 'C', 'D'],
@@ -266,5 +271,3 @@ LAB_SUBJECTS = {
     ],
 }
 
-DAYS = 5
-PERIODS = 6
