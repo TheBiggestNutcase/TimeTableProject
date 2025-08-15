@@ -3,7 +3,7 @@ import random
 from collections import defaultdict
 from openpyxl import load_workbook
 from openpyxl.styles import Border, Side
-from timetable_with_labs_and_theory import (
+from generate_timetable import (
     LabTimetable, TheoryTimetable,
     LAB_SUBJECTS, PREBOOKED, DAYS, PERIODS
 )
