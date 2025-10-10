@@ -9,3 +9,6 @@ __pycache__
 
 # Environment
 .env
+
+# Temp Files
+test.py
