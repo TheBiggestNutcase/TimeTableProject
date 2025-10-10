@@ -1,0 +1,44 @@
+name: Run Python with Secrets
+
+on:
+  push:
+    branches: [ main ]   # adjust branch if needed
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    # Option A: make each secret available as an env var for every step in this job
+    env:
+      MONGO_URI: ${{ secrets.MONGO_URI }}
+      DB_NAME:   ${{ secrets.DB_NAME }}
+      MONGO_CLIENT_URI:   ${{ secrets.MONGO_CLIENT_URI }}
+      COLL_SEMESTERS:   ${{ secrets.COLL_SEMESTERS }}
+      COLL_SUBJECTS:   ${{ secrets.COLL_SUBJECTS }}
+      COLL_TEACHERS:   ${{ secrets.COLL_TEACHERS }}
+      COLL_PREBOOKED:   ${{ secrets.COLL_PREBOOKED }}
+      COLL_LABS:   ${{ secrets.COLL_LABS }}
+      COLL_META:   ${{ secrets.COLL_META }}
+      DOC_ID_SEMESTERS:   ${{ secrets.DOC_ID_SEMESTERS }}
+      DOC_ID_SUBJECTS:   ${{ secrets.DOC_ID_SUBJECTS }}
+      DOC_ID_TEACHERS:   ${{ secrets.DOC_ID_TEACHERS }}
+      DOC_ID_PREBOOKED:   ${{ secrets.DOC_ID_PREBOOKED }}
+      DOC_ID_LABS:   ${{ secrets.DOC_ID_LABS }}
+      DOC_ID_CONSTANTS:   ${{ secrets.DOC_ID_CONSTANTS }}
+      # add as many as you need, matching the secret names in the repo
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run my Python script
+        run: python your_script.py
