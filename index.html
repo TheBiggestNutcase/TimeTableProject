@@ -1,0 +1,1592 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <title>Timetable Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            --bg: #0b1220;
+            /* deep navy */
+            --panel: #0f172a;
+            /* dark panel */
+            --text: #e2e8f0;
+            /* soft gray-blue */
+            --muted: #9aa7b4;
+            /* slate */
+            --card: #0c1424;
+            /* card */
+            --border: #1f2a3a;
+            /* border */
+            /* Subtle accents */
+            --accent: #3a6ea5;
+            /* steel blue */
+            --accent-strong: #2f5b89;
+            /* darker steel blue */
+            --accent-soft: #2a3a52;
+            /* hover bg */
+            --accent-alt: #e7c65a;
+            /* sand */
+            --accent-alt-strong: #d5b34e;
+            --success: #2b7a78;
+            /* muted teal */
+            --danger: #c26d6d;
+            /* muted red */
+            --shadow: 0 12px 28px rgba(0, 0, 0, .25);
+            --shadow-soft: 0 8px 16px rgba(0, 0, 0, .18);
+            --radius: 16px;
+            --radius-sm: 12px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(1000px 600px at 20% -10%, #101828 0%, var(--bg) 60%) no-repeat fixed, var(--bg);
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: linear-gradient(180deg, rgba(12, 15, 20, .9), rgba(12, 15, 20, .7));
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: saturate(120%) blur(8px);
+        }
+
+        .header-inner {
+            width: 100%;
+            max-width: 1200px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: .3px;
+            color: #cfe2ff
+        }
+
+        /* Inputs */
+        .row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+
+        input[type=text],
+        input[type=number],
+        select,
+        .sselect-input {
+            background: linear-gradient(180deg, #0b1322, #0a111c);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03);
+        }
+
+        input[type=text]:focus,
+        input[type=number]:focus,
+        select:focus,
+        .sselect-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(58, 110, 165, .18);
+        }
+
+        /* Buttons - rounded */
+        button {
+            background: linear-gradient(180deg, var(--accent), var(--accent-strong));
+            color: #eaf2ff;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 18px;
+            /* rounded */
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 700;
+            letter-spacing: .2px;
+            box-shadow: var(--shadow-soft);
+            transition: transform .05s ease, box-shadow .2s ease, background-color .2s ease, filter .2s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(180deg, var(--accent-strong), var(--accent-strong));
+            box-shadow: var(--shadow);
+            filter: saturate(104%);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+            filter: grayscale(.1)
+        }
+
+        /* Secondary (sand) — for Add Teacher / Add Assignment / key actions */
+        button.secondary {
+            background: linear-gradient(180deg, var(--accent-alt), var(--accent-alt-strong));
+            color: #14120a;
+            border: 1px solid #f1da8f;
+            border-radius: 18px;
+            /* keep rounded */
+            box-shadow: 0 6px 14px rgba(213, 179, 78, .22), inset 0 1px 0 rgba(255, 255, 255, .25);
+        }
+
+        button.secondary:hover {
+            background: linear-gradient(180deg, #f0d069, #daba52);
+            box-shadow: 0 10px 22px rgba(213, 179, 78, .28);
+        }
+
+        button.secondary:active {
+            transform: translateY(1px);
+            box-shadow: 0 6px 12px rgba(213, 179, 78, .24) inset;
+        }
+
+        button.secondary:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(231, 198, 90, .35), 0 8px 18px rgba(0, 0, 0, .25);
+        }
+
+        /* Warn */
+        button.warn {
+            background: linear-gradient(180deg, #c77474, #b25f5f);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 18px;
+        }
+
+        /* Layout */
+        main {
+            width: 100%;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            padding: 16px;
+        }
+
+        @media (min-width: 980px) {
+            .layout {
+                grid-template-columns: 320px 1fr;
+            }
+        }
+
+        nav {
+            background: linear-gradient(180deg, #0f1522, #0e141f);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px;
+            box-shadow: var(--shadow-soft);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .nav-title {
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin: 12px 8px;
+            text-align: center
+        }
+
+        .nav-btn {
+            width: 100%;
+            text-align: center;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            color: var(--text);
+            padding: 12px;
+            cursor: pointer;
+            transition: background .2s, border-color .2s;
+        }
+
+        .nav-btn:hover {
+            background: #111b2a
+        }
+
+        .nav-btn.active {
+            background: #0e1a2c;
+            border-color: var(--border)
+        }
+
+        section.panel {
+            background: linear-gradient(180deg, #0f1522, #0e141f);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            min-height: 60dvh;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            margin: -16px -16px 16px -16px;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(180deg, rgba(58, 110, 165, .07), rgba(231, 198, 90, .05));
+        }
+
+        .toolbar strong {
+            font-size: 16px;
+            letter-spacing: .2px
+        }
+
+        .status {
+            margin-left: auto;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .hint {
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center
+        }
+
+        /* Center helpers */
+        .center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .row.center {
+            justify-content: center;
+        }
+
+        /* Toolbar aligned row */
+        .toolbar-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .toolbar-row .group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toolbar-row label {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toolbar-row .sselect {
+            width: 280px;
+        }
+
+        .toolbar-row button {
+            min-height: 46px;
+            border-radius: 18px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, #0b1220, #0a0f18);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid var(--border);
+            padding: 10px 10px;
+            white-space: nowrap;
+            text-align: center
+        }
+
+        th {
+            position: sticky;
+            top: 0;
+            background: #0f1a2b;
+            color: #d2e7ff;
+            z-index: 1
+        }
+
+        tbody tr:hover {
+            background: var(--accent-soft)
+        }
+
+        td.lab {
+            background: rgba(181, 159, 106, .28);
+            color: #e2e8f0;
+            font-weight: 700;
+            border-left: 2px solid var(--accent-alt-strong);
+        }
+
+        /* Chips */
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 10px;
+            margin: 4px;
+            background: #0b1220;
+            color: #dbeafe;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03)
+        }
+
+        .chip button {
+            background: transparent;
+            border: 0;
+            color: #ffd1d1;
+            cursor: pointer;
+            padding: 0 6px;
+            font-weight: 900
+        }
+
+        /* SearchableSelect */
+        .sselect {
+            width: 260px;
+        }
+
+        .sselect-input {
+            border-radius: 14px;
+        }
+
+        .sselect-list {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            max-height: 220px;
+            overflow: auto;
+            display: none;
+            z-index: 20;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .sselect-item--hi {
+            background: #12253d;
+        }
+
+        /* Modal */
+        .modal.hidden {
+            display: none;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+        }
+
+        .modal__backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, .55);
+            backdrop-filter: blur(2px);
+        }
+
+        .modal__panel {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: min(520px, 92vw);
+            background: linear-gradient(180deg, #0f1522, #0e141f);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .modal__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal__header h3 {
+            margin: 0;
+            color: #cfe2ff;
+        }
+
+        .modal__close {
+            background: transparent;
+            border: 0;
+            color: var(--text);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .modal__body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .modal__footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Responsive tweaks */
+        @media (max-width: 720px) {
+            header h1 {
+                font-size: 18px;
+            }
+
+            .sselect {
+                width: 100%;
+            }
+
+            .row {
+                gap: 10px;
+            }
+        }
+
+        /* High-contrast preference: subtle border increase */
+        @media (prefers-contrast: more) {
+            button.secondary {
+                border-color: #ffe599;
+            }
+
+            button {
+                border-color: rgba(255, 255, 255, .12);
+            }
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+    <header>
+        <div class="header-inner container">
+            <h1>Timetable Generator</h1>
+            <div class="row">
+                <input id="baseUrl" type="text" placeholder="http://127.0.0.1:8000">
+                <button id="btnSetUrl">Set Base URL</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="layout">
+            <nav>
+                <div class="nav-title">Config</div>
+                <button class="nav-btn active" data-view="semesters">Semesters &amp; Sections</button>
+                <button class="nav-btn" data-view="subjects">Subjects Per Semester</button>
+                <button class="nav-btn" data-view="teachers">Teacher Assignments</button>
+                <button class="nav-btn" data-view="labs">Lab Subjects</button>
+                <button class="nav-btn" data-view="prebooked">Prebooked</button>
+                <button class="nav-btn" data-view="constants">Constants</button>
+                <div class="nav-title">Run</div>
+                <button class="nav-btn" data-view="generate">Generate</button>
+            </nav>
+
+            <section id="panel" class="panel">
+      <div class="toolbar"><strong style="margin-left:8px">Semesters &amp; Sections</strong><span class="status" id="status">Error</span></div>
+      <div class="hint" style="margin:6px 0 10px">Add a semester, then add section codes.</div>
+      <div id="semestersWrap"></div>
+      <div class="row" style="margin-top:10px">
+        <input id="semesterInput" type="text" placeholder="Semester (e.g., 3, 5, 7)" style="width:140px">
+        <button id="addSemester" class="secondary">Add Semester</button>
+        <button id="save" class="">Save</button>
+        <button id="load" class="">Reload</button>
+      </div>
+    </section>
+        </div>
+    </main>
+
+    <script>
+        const preferredTeacher = 'shwetha k r'; // case-insensitive match
+        function pickPreferredTeacher(teachersArray) {
+            if (!Array.isArray(teachersArray) || !teachersArray.length) return '';
+            const idx = teachersArray.findIndex(t => String(t).toLowerCase() === preferredTeacher.toLowerCase());
+            return idx >= 0 ? teachersArray[idx] : teachersArray[0];
+        }
+
+        // ---------- State and API ----------
+        const API = {
+    semesters: "/config/semesters_sections",
+    subjectsPerSemester: "/config/subjects_per_semester",
+    teachers: "/config/teacher_assignments",
+    prebooked: "/config/prebooked",
+    labs: "/config/lab_subjects",
+    constants: "/config/constants",
+    generate: "/generate",
+  };
+        const state = {
+            baseUrl: localStorage.getItem('tt_base_url') || 'http://127.0.0.1:8000',
+            active: 'semesters',
+            cache: { semesters: null, subjects: null, teachers: null, labs: null, prebooked: null, constants: null },
+            lists: { sections: [], subjectsBySemester: {}, teachers: [] },
+        };
+        document.getElementById('baseUrl').value = state.baseUrl;
+        document.getElementById('btnSetUrl').onclick = () => {
+            const v = document.getElementById('baseUrl').value.trim().replace(/\/+$/, '');
+            if (!v) return alert('Enter a valid URL');
+            state.baseUrl = v; localStorage.setItem('tt_base_url', v);
+            alert('Base URL set to ' + v);
+            render();
+        };
+        async function api(path, opts = {}) {
+            const url = state.baseUrl + path;
+            const hasBody = opts.body !== undefined && opts.body !== null;
+            const method = (opts.method || 'GET').toUpperCase();
+            const headers = {};
+            if (hasBody && ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) headers['Content-Type'] = 'application/json';
+            const res = await fetch(url, { method, headers, body: hasBody ? JSON.stringify(opts.body) : undefined, mode: 'cors' });
+            const text = await res.text();
+            let data; try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+            if (!res.ok) throw new Error(typeof data === 'string' ? data : (data?.detail || res.status + ' ' + res.statusText));
+            return data;
+        }
+        const PATH = {
+            semesters: '/config/semesters_sections',
+            subjects: '/config/subjects_per_semester',
+            teachers: '/config/teacher_assignments',
+            labs: '/config/lab_subjects',
+            prebooked: '/config/prebooked',
+            constants: '/config/constants',
+            generate: '/timetable/generate',
+            getLabs: '/timetable/labs',
+            getClasses: '/timetable/classes',
+            export: '/timetable/export',
+        };
+
+        // ---------- Helpers ----------
+        const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+        function buildSectionList(semestersMap) { const list = []; Object.entries(semestersMap || {}).forEach(([y, secs]) => secs.forEach(s => list.push(`${y}${s}`))); return list.sort(); }
+        const unique = arr => Array.from(new Set(arr));
+        function daysRow(len) { return Array.from({ length: len }).map((_, i) => `<th>P${i + 1}</th>`).join(''); }
+        function buildTable(grid, title) {
+            if (!grid || !grid.length) return '<div class="hint">Empty.</div>';
+            const cols = grid[0].length;
+            let html = `<div style="margin:8px 0;font-weight:700">${title}</div><table><thead><tr><th>Day \\ Period</th>${daysRow(cols)}</tr></thead><tbody>`;
+            for (let d = 0; d < grid.length; d++) {
+                html += `<tr><td>${days[d] || ('D' + (d + 1))}</td>`;
+                for (let p = 0; p < cols; p++) {
+                    const cell = grid[d][p];
+                    const isLab = cell === 'LAB';
+                    const text = isLab ? 'LAB' : (cell ? String(cell).slice(0, 30) : '-');
+                    html += `<td class="${isLab ? 'lab' : ''}" title="${isLab ? 'LAB' : (cell || '')}">${text}</td>`;
+                }
+                html += `</tr>`;
+            }
+            html += `</tbody></table>`;
+            return html;
+        }
+        function semesterFromSec(sid) { return String(sid || '').match(/^\d+/)?.[0] || ''; }
+
+        // ---------- Searchable Select ----------
+        function searchableSelect(container, options, initialValue, onChange, placeholder = "Search...") {
+            container.innerHTML = `
+    <div class="sselect" style="position:relative; min-width:220px;">
+      <input type="text" class="sselect-input" placeholder="${placeholder}" style="width:100%; padding-right:28px;">
+      <div class="sselect-list" style="position:absolute; top:40px; left:0; right:0; background:var(--card); border:1px solid var(--border); border-radius:8px; max-height:220px; overflow:auto; display:none; z-index:20"></div>
+      <div class="sselect-value" style="display:none"></div>
+    </div>
+  `;
+
+            const input = container.querySelector('.sselect-input');
+            const list = container.querySelector('.sselect-list');
+            const valueEl = container.querySelector('.sselect-value');
+
+            let data = Array.isArray(options) ? options.slice() : [];
+            let current = initialValue && data.includes(initialValue) ? initialValue : (data[0] || '');
+            let fil = '';           // current filter string
+            let hi = -1;            // highlighted index in filtered list
+
+            function filtered() {
+                const f = fil.trim().toLowerCase();
+                return f ? data.filter(x => x.toLowerCase().includes(f)) : data.slice();
+            }
+
+            function renderList() {
+                const arr = filtered();
+                if (!arr.length) {
+                    list.innerHTML = `<div class="hint" style="padding:8px">No results</div>`;
+                    return;
+                }
+                list.innerHTML = arr.map((x, i) => `
+      <div class="sselect-item${i === hi ? ' sselect-item--hi' : ''}" style="padding:8px; cursor:pointer; border-bottom:1px solid var(--border)">
+        ${x}
+      </div>
+    `).join('');
+                list.querySelectorAll('.sselect-item').forEach((el, i) => {
+                    el.onmouseenter = () => { hi = i; updateHi(); };
+                    el.onclick = () => select(arr[i]);
+                });
+            }
+
+            function updateHi() {
+                list.querySelectorAll('.sselect-item').forEach((el, i) => {
+                    if (i === hi) el.classList.add('sselect-item--hi');
+                    else el.classList.remove('sselect-item--hi');
+                });
+            }
+
+            function openList() {
+                renderList();
+                list.style.display = 'block';
+            }
+
+            function closeList() {
+                list.style.display = 'none';
+                hi = -1;
+            }
+
+            function select(v) {
+                current = v || '';
+                input.value = current;       // show selection IN the textbox
+                valueEl.textContent = current; // keep hidden value span in sync for existing code
+                closeList();
+                if (typeof onChange === 'function') onChange(current);
+            }
+
+            // Initialize input with current selection
+            input.value = current;
+            valueEl.textContent = current;
+
+            // Events
+            input.addEventListener('focus', () => {
+                fil = '';
+                openList();
+            });
+
+            input.addEventListener('input', () => {
+                fil = input.value;
+                hi = 0;
+                openList();
+            });
+
+            input.addEventListener('keydown', (e) => {
+                const arr = filtered();
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (!arr.length) return;
+                    hi = (hi + 1) % arr.length;
+                    renderList(); updateHi();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (!arr.length) return;
+                    hi = (hi <= 0 ? arr.length - 1 : hi - 1);
+                    renderList(); updateHi();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (arr.length) select(arr[hi >= 0 ? hi : 0]);
+                } else if (e.key === 'Escape') {
+                    e.preventDefault(); closeList();
+                }
+            });
+
+            // Allow clicking an option after input loses focus
+            input.addEventListener('blur', () => {
+                setTimeout(() => closeList(), 150);
+            });
+
+            // Public API (backward compatible)
+            return {
+                get value() { return current; },
+                set value(v) {
+                    current = v || '';
+                    input.value = current;
+                    valueEl.textContent = current;
+                },
+                setOptions(opts) {
+                    data = Array.isArray(opts) ? opts.slice() : [];
+                    // If current is no longer valid, reset to first option
+                    if (!data.includes(current)) {
+                        current = data[0] || '';
+                        input.value = current;
+                        valueEl.textContent = current;
+                        if (typeof onChange === 'function') onChange(current);
+                    }
+                    // Rerender if list is open
+                    if (list.style.display === 'block') renderList();
+                }
+            };
+        }
+
+
+        // ---------- Router ----------
+        const panel = document.getElementById('panel');
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.active = (btn.dataset.view || '').trim();
+                render();
+            };
+        });
+        const r = html => panel.innerHTML = html;
+        const statusBar = () => `<span class="status" id="status"></span>`;
+
+        // Semesters & Sections
+        async function renderSemesters() {
+            r(`
+      <div class="toolbar"><strong style="margin-left:8px">Semesters & Sections</strong>${statusBar()}</div>
+      <div class="hint" style="margin:6px 0 10px">Add a semester, then add section codes.</div>
+      <div id="semestersWrap"></div>
+      <div class="row" style="margin-top:10px">
+        <input id="semesterInput" type="text" placeholder="Semester (e.g., 3, 5, 7)" style="width:140px">
+        <button id="addSemester" class="secondary">Add Semester</button>
+        <button id="save" class="">Save</button>
+        <button id="load" class="">Reload</button>
+      </div>
+    `);
+            const status = document.getElementById('status');
+            const wrap = document.getElementById('semestersWrap');
+
+            function draw(map) {
+                wrap.innerHTML = '';
+                Object.keys(map).sort((a, b) => parseInt(a) - parseInt(b)).forEach(semester => {
+                    const row = document.createElement('div');
+                    row.style.border = '1px solid var(--border)'; row.style.borderRadius = '8px'; row.style.padding = '8px'; row.style.marginBottom = '8px';
+                    const chips = (map[semester] || []).map(sec => `<span class="chip">${sec}<button data-x="${sec}" data-semester="${semester}">×</button></span>`).join(' ');
+                    row.innerHTML = `
+          <div class="row" style="justify-content:space-between">
+            <div><strong>Semester ${semester}</strong></div>
+            <div class="row">
+              <input data-add="${semester}" type="text" placeholder="Add section (e.g., A)" style="width:140px">
+              <button data-addbtn="${semester}" class="secondary">Add Section</button>
+              <button data-del="${semester}" class="warn">Delete Semester</button>
+            </div>
+          </div>
+          <div style="margin-top:8px">${chips || '<span class="hint">No sections yet</span>'}</div>
+        `;
+                    wrap.appendChild(row);
+                });
+                wrap.querySelectorAll('button[data-del]').forEach(b => {
+                    b.onclick = () => { const s = b.getAttribute('data-del'); delete state.cache.semesters[y]; draw(state.cache.semesters); };
+                });
+                wrap.querySelectorAll('button[data-addbtn]').forEach(b => {
+                    b.onclick = () => {
+                        const s = b.getAttribute('data-addbtn');
+                        const inp = wrap.querySelector(`input[data-add="${y}"]`);
+                        const val = (inp.value || '').trim().toUpperCase();
+                        if (!val) return;
+                        state.cache.semesters[y] = unique([...(state.cache.semesters[y] || []), val]);
+                        inp.value = ''; draw(state.cache.semesters);
+                    };
+                });
+                wrap.querySelectorAll('button[data-x]').forEach(b => {
+                    b.onclick = () => {
+                        const sec = b.getAttribute('data-x'); const s = b.getAttribute('data-semester');
+                        state.cache.semesters[y] = (state.cache.semesters[y] || []).filter(s => s !== sec);
+                        draw(state.cache.semesters);
+                    };
+                });
+            }
+
+            async function load() {
+                try {
+                    status.textContent = 'Loading...';
+                    const res = await api(PATH.semesters);
+                    state.cache.semesters = res?.data || {};
+                    state.lists.sections = buildSectionList(state.cache.semesters);
+                    draw(state.cache.semesters);
+                    status.textContent = 'Loaded';
+                } catch (e) { status.textContent = 'Error'; alert('Load failed: ' + e.message); }
+            }
+
+            document.getElementById('addSemester').onclick = () => {
+                const s = document.getElementById('semesterInput').value.trim();
+                if (!y) return;
+                state.cache.semesters = state.cache.semesters || {};
+                if (!state.cache.semesters[y]) state.cache.semesters[y] = [];
+                document.getElementById('semesterInput').value = '';
+                draw(state.cache.semesters);
+            };
+            document.getElementById('save').onclick = async () => {
+                try {
+                    status.textContent = 'Saving...';
+                    await api(PATH.semesters, { method: 'PUT', body: { data: state.cache.semesters || {} } });
+                    state.lists.sections = buildSectionList(state.cache.semesters);
+                    status.textContent = 'Saved';
+                    alert('Saved semesters & sections');
+                } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+            };
+            document.getElementById('load').onclick = load;
+
+            await load();
+        }
+
+        // Subjects per semester
+        async function renderSubjects() {
+            r(`
+      <div class="toolbar"><strong style="margin-left:8px">Subjects Per Semester</strong>${statusBar()}</div>
+      <div class="row" style="gap:10px;margin-bottom:8px">
+        <label>Semester <span id="subSemesterHost"></span></label>
+        <button id="addRow" class="secondary">Add Subject</button>
+        <button id="save">Save</button>
+        <button id="load">Reload</button>
+      </div>
+      <table id="tbl"><thead><tr><th>Subject Name</th><th>Periods/Week</th><th>Actions</th></tr></thead><tbody></tbody></table>
+      <div class="hint" style="margin-top:8px">Saved as {"semester":{"SUBJECT": periods, ...}}.</div>
+    `);
+            const status = document.getElementById('status');
+            const semesterHost = document.getElementById('subSemesterHost');
+            const tbody = document.querySelector('#tbl tbody');
+
+            async function ensureSemesters() {
+                if (!state.cache.semesters) {
+                    const res = await api(PATH.semesters);
+                    state.cache.semesters = res?.data || {};
+                    state.lists.sections = buildSectionList(state.cache.semesters);
+                }
+            }
+            function ensureSubjectsMap() { state.cache.subjects = state.cache.subjects || {}; Object.keys(state.cache.semesters || {}).forEach(y => { state.cache.subjects[y] = state.cache.subjects[y] || {}; }); }
+            function draw(semester) {
+                tbody.innerHTML = '';
+                const map = state.cache.subjects[semester] || {};
+                Object.entries(map).forEach(([name, ppw]) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+          <td><input type="text" value="${name}" style="width:100%"></td>
+          <td><input type="number" value="${ppw}" min="1" style="width:120px"></td>
+          <td><button class="warn">Delete</button></td>
+        `;
+                    tbody.appendChild(tr);
+                });
+            }
+            function collect(semester) {
+                const map = {};
+                tbody.querySelectorAll('tr').forEach(tr => {
+                    const name = tr.children[0].querySelector('input').value.trim();
+                    const ppw = parseInt(tr.children[1].querySelector('input').value, 10);
+                    if (name && ppw > 0) map[name] = ppw;
+                });
+                state.cache.subjects[semester] = map;
+            }
+
+            document.getElementById('addRow').onclick = () => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td><input type="text" placeholder="Subject name" style="width:100%"></td>
+                      <td><input type="number" min="1" value="3" style="width:120px"></td>
+                      <td><button class="warn">Delete</button></td>`;
+                tbody.appendChild(tr);
+            };
+            tbody.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON') e.target.closest('tr').remove(); });
+            document.getElementById('save').onclick = async () => {
+                try {
+                    const s = semesterSelect.value;
+                    collect(y);
+                    status.textContent = 'Saving...';
+                    await api(PATH.subjects, { method: 'PUT', body: { data: state.cache.subjects } });
+                    state.lists.subjectsBySemester = state.cache.subjects;
+                    status.textContent = 'Saved';
+                    alert('Saved subjects per semester');
+                } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+            };
+            document.getElementById('load').onclick = async () => {
+                try {
+                    status.textContent = 'Loading...';
+                    const res = await api(PATH.subjects);
+                    state.cache.subjects = res?.data || {};
+                    ensureSubjectsMap();
+                    draw(semesterSelect.value);
+                    status.textContent = 'Loaded';
+                } catch (e) { status.textContent = 'Error'; alert('Load failed: ' + e.message); }
+            };
+
+            await ensureSemesters();
+            const semestersList = Object.keys(state.cache.semesters || {}).sort((a, b) => parseInt(a) - parseInt(b));
+            let currentSemester = semestersList[0] || '';
+            const semesterSelect = searchableSelect(semesterHost, semestersList, currentSemester, (val) => {
+                if (currentSemester) collect(currentSemester);
+                currentSemester = val;
+                draw(currentSemester);
+            }, "Search semester...");
+            const res = await api(PATH.subjects);
+            state.cache.subjects = res?.data || {};
+            ensureSubjectsMap();
+            state.lists.subjectsBySemester = state.cache.subjects;
+            draw(currentSemester);
+        }
+
+        // Teacher assignments
+        async function renderTeachers() {
+            panel.innerHTML = `
+    <div class="toolbar"><strong style="margin-left:8px">Teacher Assignments</strong><span class="status" id="status"></span></div>
+    <div class="center">
+      <div class="toolbar-row" style="margin-bottom:6px">
+  <div class="group">
+    <label for="findHost">Find Teacher</label>
+    <span id="findHost"></span>
+  </div>
+  <div class="group">
+    <button id="btnAddTeacher" class="secondary" style="min-width:160px">Add Teacher</button>
+    <button id="save">Save</button>
+    <button id="load">Reload</button>
+  </div>
+</div>
+      <div id="teachWrap" style="width:100%"></div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal hidden" aria-hidden="true">
+      <div class="modal__backdrop"></div>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal__header">
+          <h3 id="modalTitle">Add New Teacher</h3>
+          <button class="modal__close" id="modalClose" aria-label="Close">×</button>
+        </div>
+        <div class="modal__body">
+          <label>Teacher Name</label>
+          <input id="newTeacherName" type="text" placeholder="Enter full name" />
+        </div>
+        <div class="modal__footer">
+          <button id="modalCancel">Cancel</button>
+          <button id="modalCreate" class="secondary">Create</button>
+        </div>
+      </div>
+    </div>
+  `;
+            const status = document.getElementById('status');
+            const wrap = document.getElementById('teachWrap');
+
+            // Modal helpers
+            const modal = document.getElementById('modal');
+            const modalOpen = () => { modal.classList.remove('hidden'); modal.setAttribute('aria-hidden', 'false'); document.getElementById('newTeacherName').focus(); };
+            const modalClose = () => { modal.classList.add('hidden'); modal.setAttribute('aria-hidden', 'true'); };
+
+            // Searchable find teacher
+            let findSS = null;
+
+            async function ensureRefs() {
+                if (!state.cache.semesters) { const s = await api(PATH.semesters); state.cache.semesters = y?.data || {}; state.lists.sections = buildSectionList(state.cache.semesters); }
+                if (!state.cache.subjects) { const s = await api(PATH.subjects); state.cache.subjects = s?.data || {}; state.lists.subjectsBySemester = state.cache.subjects; }
+            }
+
+            function scrollToTeacher(name) {
+                const card = wrap.querySelector(`[data-teacher="${CSS.escape(name)}"]`);
+                if (!card) return;
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.classList.add('card--pulse');
+                setTimeout(() => card.classList.remove('card--pulse'), 900);
+            }
+
+            function draw() {
+                wrap.innerHTML = '';
+                const data = state.cache.teachers || {};
+                const sections = state.lists.sections;
+
+                Object.keys(data).sort().forEach(t => {
+                    const card = document.createElement('div');
+                    card.dataset.teacher = t;
+                    card.style.border = '1px solid var(--border)'; card.style.borderRadius = '14px'; card.style.padding = '12px'; card.style.margin = '12px auto'; card.style.maxWidth = '940px';
+                    card.style.boxShadow = 'var(--shadow-soft)';
+                    card.innerHTML = `
+        <div class="row" style="justify-content:space-between; align-items:center">
+          <strong style="font-size:16px">${t}</strong>
+          <div class="row">
+            <button class="warn" data-del="${t}">Delete Teacher</button>
+            <button class="secondary" data-add="${t}">Add Assignment</button>
+          </div>
+        </div>
+        <table style="margin-top:10px"><thead><tr><th>Section</th><th>Subject</th><th>Actions</th></tr></thead><tbody></tbody></table>
+      `;
+                    wrap.appendChild(card);
+                    const tbody = card.querySelector('tbody');
+
+                    function addRow(secVal = '', subjVal = '') {
+                        const tr = document.createElement('tr');
+                        const td1 = document.createElement('td');
+                        const td2 = document.createElement('td');
+                        const td3 = document.createElement('td');
+                        const secHost = document.createElement('div');
+                        td1.appendChild(secHost);
+                        const secSS = searchableSelect(secHost, sections, secVal || sections[0] || '', onSectionChange, "Search section...");
+                        const subjHost = document.createElement('div');
+                        td2.appendChild(subjHost);
+                        function onSectionChange(newSec) {
+                            const s = (String(newSec).match(/^\d+/) || [''])[0];
+                            const subs = Object.keys(state.lists.subjectsBySemester[y] || {});
+                            subjSS.setOptions(subs);
+                            if (subs.length && !subs.includes(subjSS.value)) subjSS.value = subs[0];
+                        }
+                        const initSemester = (String(secSS.value).match(/^\d+/) || [''])[0];
+                        const initSubs = Object.keys(state.lists.subjectsBySemester[initSemester] || {});
+                        const subjSS = searchableSelect(subjHost, initSubs, subjVal || initSubs[0] || '', (v) => { }, "Search subject...");
+                        const del = document.createElement('button'); del.textContent = 'Delete'; del.className = 'warn'; del.onclick = () => tr.remove();
+                        td3.appendChild(del);
+                        tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+                        tbody.appendChild(tr);
+                    }
+
+                    (data[t] || []).forEach(([sec, subj]) => addRow(sec, subj));
+                    card.querySelector('button[data-add]').onclick = () => addRow();
+                    card.querySelector('button[data-del]').onclick = () => { delete state.cache.teachers[t]; draw(); };
+                });
+
+                // Rebuild search index for findSS
+                const names = Object.keys(state.cache.teachers || {}).sort();
+                const defaultFind = pickPreferredTeacher(names);
+                if (!findSS) {
+                    findSS = searchableSelect(document.getElementById('findHost'), names, defaultFind, (val) => scrollToTeacher(val), "Search teacher...");
+                } else {
+                    findSS.setOptions(names);
+                    findSS.value = defaultFind; // keep default focused on preferred teacher
+                }
+            }
+
+            // Open add-teacher modal
+            document.getElementById('btnAddTeacher').onclick = () => {
+                document.getElementById('newTeacherName').value = '';
+                modalOpen();
+            };
+            // Modal wiring
+            document.getElementById('modalClose').onclick = modalClose;
+            document.getElementById('modalCancel').onclick = modalClose;
+            document.getElementById('modalCreate').onclick = () => {
+                const name = document.getElementById('newTeacherName').value.trim();
+                if (!name) { alert('Please enter a name'); return; }
+                state.cache.teachers = state.cache.teachers || {};
+                if (!state.cache.teachers[name]) state.cache.teachers[name] = [];
+                modalClose();
+                draw();
+                if (defaultFind) {
+                    // Delay to ensure DOM is painted
+                    requestAnimationFrame(() => scrollToTeacher(defaultFind));
+                }
+                scrollToTeacher(name);
+            };
+            modal.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal__backdrop')) modalClose();
+            });
+            window.addEventListener('keydown', (e) => { if (!modal.classList.contains('hidden') && e.key === 'Escape') modalClose(); });
+
+            document.getElementById('save').onclick = async () => {
+                try {
+                    const out = {};
+                    wrap.querySelectorAll('[data-teacher]').forEach(card => {
+                        const t = card.getAttribute('data-teacher');
+                        const rows = [];
+                        card.querySelectorAll('tbody tr').forEach(tr => {
+                            const sec = tr.children[0].querySelector('.sselect-value').textContent.trim();
+                            const subj = tr.children[1].querySelector('.sselect-value').textContent.trim();
+                            if (sec && subj) rows.push([sec, subj]);
+                        });
+                        if (rows.length) out[t] = rows;
+                    });
+                    status.textContent = 'Saving...';
+                    await api(PATH.teachers, { method: 'PUT', body: { data: out } });
+                    state.cache.teachers = out;
+                    status.textContent = 'Saved';
+                    alert('Saved teacher assignments');
+                } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+            };
+            document.getElementById('load').onclick = load;
+
+            async function load() {
+                try {
+                    status.textContent = 'Loading...';
+                    await ensureRefs();
+                    const res = await api(PATH.teachers);
+                    state.cache.teachers = res?.data || {};
+                    draw();
+                    status.textContent = 'Loaded';
+                } catch (e) { status.textContent = 'Error'; alert('Load failed: ' + e.message); }
+            }
+            await load();
+        }
+
+
+        // Lab subjects
+        async function renderLabs() {
+            r(`
+      <div class="toolbar"><strong style="margin-left:8px">Lab Subjects</strong>${statusBar()}</div>
+      <div class="row" style="gap:10px;margin-bottom:8px">
+        <label>Section <span id="secHost"></span></label>
+        <button id="addRow" class="secondary">Add Lab</button>
+        <button id="save">Save</button>
+        <button id="load">Reload</button>
+      </div>
+      <table id="tbl"><thead><tr><th>Lab Name</th><th>Lab Teacher</th><th>Actions</th></tr></thead><tbody></tbody></table>
+      <div class="hint" style="margin-top:8px">Saved as {"3A":[["OS-LAB","Teacher"], ...]}.</div>
+    `);
+            const status = document.getElementById('status');
+            const secHost = document.getElementById('secHost');
+            const tbody = document.querySelector('#tbl tbody');
+
+            async function ensureRefs() {
+                if (!state.cache.semesters) { const s = await api(PATH.semesters); state.cache.semesters = y?.data || {}; }
+                if (!state.cache.teachers) { const t = await api(PATH.teachers); state.cache.teachers = t?.data || {}; state.lists.teachers = Object.keys(state.cache.teachers || {}).sort(); }
+                state.lists.sections = buildSectionList(state.cache.semesters);
+            }
+
+            let currentSection = '';
+            let secSS = null;
+
+            function draw(section) {
+                tbody.innerHTML = '';
+                const rows = state.cache.labs[section] || [];
+                rows.forEach(([lab, t]) => addRow(lab, t));
+            }
+            function addRow(labVal = '', teacherVal = '') {
+                const tr = document.createElement('tr');
+                const tSelHost = document.createElement('div');
+                tr.innerHTML = `<td><input type="text" value="${labVal}" placeholder="LAB-NAME" style="width:100%"></td>`;
+                const tdTeacher = document.createElement('td'); tdTeacher.appendChild(tSelHost);
+                const tdAct = document.createElement('td'); const btn = document.createElement('button'); btn.textContent = 'Delete'; btn.className = 'warn'; btn.onclick = () => tr.remove(); tdAct.appendChild(btn);
+                tr.appendChild(tdTeacher); tr.appendChild(tdAct);
+                tbody.appendChild(tr);
+                const defaultT = pickPreferredTeacher(state.lists.teachers);
+                searchableSelect(tSelHost, state.lists.teachers, (teacherVal || defaultT || state.lists.teachers[0] || ''), () => { }, "Search teacher...");
+            }
+
+            document.getElementById('addRow').onclick = () => addRow();
+            document.getElementById('save').onclick = async () => {
+                try {
+                    const s = currentSection;
+                    state.cache.labs[s] = [];
+                    tbody.querySelectorAll('tr').forEach(tr => {
+                        const lab = tr.children[0].querySelector('input').value.trim();
+                        const t = tr.children[1].querySelector('.sselect-value').textContent.trim();
+                        if (lab && t) state.cache.labs[s].push([lab, t]);
+                    });
+                    status.textContent = 'Saving...';
+                    await api(PATH.labs, { method: 'PUT', body: { data: state.cache.labs } });
+                    status.textContent = 'Saved';
+                    alert('Saved lab subjects');
+                } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+            };
+            document.getElementById('load').onclick = load;
+
+            async function load() {
+                try {
+                    status.textContent = 'Loading...';
+                    await ensureRefs();
+                    secSS = searchableSelect(secHost, state.lists.sections, state.lists.sections[0] || '', (val) => { currentSection = val; draw(val); }, "Search section...");
+                    const res = await api(PATH.labs);
+                    state.cache.labs = res?.data || {};
+                    currentSection = secSS.value;
+                    draw(currentSection);
+                    status.textContent = 'Loaded';
+                } catch (e) { status.textContent = 'Error'; alert('Load failed: ' + e.message); }
+            }
+            await load();
+        }
+
+        // Prebooked (Teacher + Section + Subject)
+        async function renderPrebooked() {
+            // Build panel
+            panel.innerHTML = `
+    <div class="toolbar"><strong>Prebooked Slots (Teacher + Section + Subject)</strong><span class="status" id="status"></span></div>
+    <div class="center">
+      <div class="toolbar-row" style="margin-bottom:8px">
+        <div class="group"><label>Teacher</label><span id="tHost"></span></div>
+        <div class="group"><label>Section</label><span id="sHost"></span></div>
+        <div class="group"><label>Subject</label><span id="subHost"></span></div>
+        <div class="group">
+          <button id="preSave">Save</button>
+          <button id="preLoad">Reload</button>
+        </div>
+      </div>
+      <div class="hint" style="margin:4px 0 10px">Select a teacher first; only that teacher’s assigned sections/subjects are available. Click cells to toggle exact prebooks.</div>
+      <div id="grid" style="width:100%"></div>
+      <div style="margin-top:12px; width:100%">
+        <div class="hint">Current prebooks for selected teacher:</div>
+        <div id="chips" style="text-align:center"></div>
+      </div>
+    </div>
+  `;
+
+            // Grab DOM refs now that HTML is in place
+            const status = document.getElementById('status');
+            const tHost = document.getElementById('tHost');
+            const sHost = document.getElementById('sHost');
+            const subHost = document.getElementById('subHost');
+            const grid = document.getElementById('grid');
+            const chips = document.getElementById('chips');
+            const btnSave = document.getElementById('preSave');
+            const btnLoad = document.getElementById('preLoad');
+
+            if (!status || !tHost || !sHost || !subHost || !grid || !chips || !btnSave || !btnLoad) {
+                throw new Error('Prebooked controls missing from DOM');
+            }
+
+            // Ensure prerequisites
+            async function ensureRefs() {
+                if (!state.cache.constants) { state.cache.constants = await api(PATH.constants); }
+                if (!state.cache.semesters) { const s = await api(PATH.semesters); state.cache.semesters = y?.data || {}; }
+                if (!state.cache.subjects) { const s = await api(PATH.subjects); state.cache.subjects = s?.data || {}; state.lists.subjectsBySemester = state.cache.subjects; }
+                if (!state.cache.teachers) { const t = await api(PATH.teachers); state.cache.teachers = t?.data || {}; }
+                if (!state.cache.prebooked) { const pb = await api(PATH.prebooked); state.cache.prebooked = pb?.data || {}; }
+                state.lists.teachers = Object.keys(state.cache.teachers || {}).sort();
+                state.lists.sections = Object.keys(state.cache.semesters || {}).flatMap(y => (state.cache.semesters[y] || []).map(s => `${y}${s}`)).sort();
+                // Build byTeacher map
+                const ta = state.cache.teachers;
+                state.lists.byTeacher = {};
+                Object.keys(ta || {}).forEach(T => {
+                    const pairs = ta[T] || [];
+                    state.lists.byTeacher[T] = pairs.map(([sec, subj]) => ({ section_id: sec, subject: subj }));
+                });
+            }
+
+            // Helpers derived from teacher selection
+            function optionsForTeacher(T) {
+                const items = state.lists.byTeacher[T] || [];
+                const sections = Array.from(new Set(items.map(x => x.section_id))).sort();
+                const subjectsBySection = {};
+                sections.forEach(sec => {
+                    subjectsBySection[sec] = items.filter(x => x.section_id === sec).map(x => x.subject).sort();
+                });
+                return { sections, subjectsBySection };
+            }
+
+            function entriesFor(teacher, section, subject) {
+                const all = state.cache.prebooked[teacher] || [];
+                const set = new Set();
+                for (const e of all) {
+                    if (Array.isArray(e) && e.length >= 2) {
+                        // legacy generic block, ignore for trio-specific
+                        continue;
+                    } else if (e && typeof e === 'object') {
+                        if (e.section_id === section && e.subject === subject) {
+                            set.add(`${e.day}-${e.period}`);
+                        }
+                    }
+                }
+                return set;
+            }
+
+            function toggleEntry(teacher, day, period, section, subject, makeOn) {
+                const arr = state.cache.prebooked[teacher] || [];
+                const idx = arr.findIndex(e => e && typeof e === 'object' && e.day === day && e.period === period && e.section_id === section && e.subject === subject);
+                if (makeOn && idx === -1) { arr.push({ day, period, section_id: section, subject }); }
+                if (!makeOn && idx > -1) { arr.splice(idx, 1); }
+                state.cache.prebooked[teacher] = arr;
+            }
+
+            function drawGrid(teacher, section, subject) {
+                const DAYS = state.cache.constants.DAYS || 5;
+                const PERIODS = state.cache.constants.PERIODS || 6;
+                grid.innerHTML = '';
+                if (!teacher || !section || !subject) return;
+                const selectedSet = entriesFor(teacher, section, subject);
+                const tbl = document.createElement('table');
+                let thead = `<thead><tr><th>Day \\ Period</th>${Array.from({ length: PERIODS }).map((_, i) => `<th>P${i + 1}</th>`).join('')}</tr></thead>`;
+                let tbody = '<tbody>';
+                for (let d = 0; d < DAYS; d++) {
+                    tbody += `<tr><td>${["Mon", "Tue", "Wed", "Thu", "Fri"][d] || ('D' + (d + 1))}</td>`;
+                    for (let p = 0; p < PERIODS; p++) {
+                        const key = `${d}-${p}`;
+                        const checked = selectedSet.has(key) ? 'checked' : '';
+                        tbody += `<td><input type="checkbox" data-d="${d}" data-p="${p}" ${checked}></td>`;
+                    }
+                    tbody += `</tr>`;
+                }
+                tbody += '</tbody>';
+                tbl.innerHTML = thead + tbody;
+                grid.appendChild(tbl);
+
+                grid.querySelectorAll('input[type=checkbox]').forEach(cb => {
+                    cb.onchange = () => {
+                        const d = parseInt(cb.getAttribute('data-d'), 10);
+                        const p = parseInt(cb.getAttribute('data-p'), 10);
+                        toggleEntry(tSS.value, d, p, sSS.value, subSS.value, cb.checked);
+                        drawChips(tSS.value);
+                    };
+                });
+            }
+
+            function drawChips(teacher) {
+                const all = state.cache.prebooked[teacher] || [];
+                const list = [];
+                for (const e of all) {
+                    if (Array.isArray(e) && e.length >= 2) {
+                        list.push({ day: e[0], period: e[1], section_id: '-', subject: '(ANY)' }); // legacy
+                    } else if (e && typeof e === 'object') {
+                        list.push(e);
+                    }
+                }
+                list.sort((a, b) => (a.section_id + a.subject).localeCompare(b.section_id + b.subject) || a.day - b.day || a.period - b.period);
+                chips.innerHTML = list.length ? list.map((e, i) => `
+      <span class="chip">
+        ${["Mon", "Tue", "Wed", "Thu", "Fri"][e.day] || ('D' + (e.day + 1))} P${e.period + 1} • ${e.section_id} • ${e.subject}
+        <button data-i="${i}">×</button>
+      </span>
+    `).join(' ') : '<span class="hint">No prebooks yet</span>';
+
+                chips.querySelectorAll('button[data-i]').forEach(btn => {
+                    btn.onclick = () => {
+                        const i = parseInt(btn.getAttribute('data-i'), 10);
+                        const arr = state.cache.prebooked[teacher] || [];
+                        let count = -1;
+                        for (let k = 0; k < arr.length; k++) {
+                            const e = arr[k];
+                            if (Array.isArray(e) || (e && typeof e === 'object')) {
+                                count++;
+                                if (count === i) { arr.splice(k, 1); break; }
+                            }
+                        }
+                        state.cache.prebooked[teacher] = arr;
+                        drawGrid(tSS.value, sSS.value, subSS.value);
+                        drawChips(teacher);
+                    };
+                });
+            }
+
+            // Build selectors
+            await (async () => {
+                try {
+                    status.textContent = 'Loading...';
+                    await ensureRefs();
+                    const defaultT = pickPreferredTeacher(state.lists.teachers);
+
+                    // Teacher select
+                    let tSS = searchableSelect(tHost, state.lists.teachers, defaultT, onTeacherChange, "Search teacher...");
+                    // Section select (populated after teacher)
+                    let sSS = searchableSelect(sHost, [], '', onSectionChange, "Search section...");
+                    // Subject select (depends on section)
+                    let subSS = searchableSelect(subHost, [], '', onSubjectChange, "Search subject...");
+
+                    // Expose to inner helpers
+                    window.tSS = tSS; window.sSS = sSS; window.subSS = subSS;
+
+                    // Initial populate based on default teacher
+                    onTeacherChange(tSS.value);
+
+                    function onTeacherChange(T) {
+                        const { sections, subjectsBySection } = optionsForTeacher(T);
+                        sSS.setOptions(sections);
+                        sSS.value = sections[0] || '';
+                        const subs = subjectsBySection[sSS.value] || [];
+                        subSS.setOptions(subs);
+                        subSS.value = subs[0] || '';
+                        drawGrid(tSS.value, sSS.value, subSS.value);
+                        drawChips(tSS.value);
+                    }
+                    function onSectionChange(sec) {
+                        const { subjectsBySection } = optionsForTeacher(tSS.value);
+                        const subs2 = subjectsBySection[sec] || [];
+                        subSS.setOptions(subs2);
+                        if (subs2.length && !subs2.includes(subSS.value)) subSS.value = subs2[0];
+                        drawGrid(tSS.value, sSS.value, subSS.value);
+                        drawChips(tSS.value);
+                    }
+                    function onSubjectChange(_) {
+                        drawGrid(tSS.value, sSS.value, subSS.value);
+                        drawChips(tSS.value);
+                    }
+
+                    // Bind save/reload
+                    btnSave.onclick = async () => {
+                        try {
+                            status.textContent = 'Saving...';
+                            await api(PATH.prebooked, { method: 'PUT', body: { data: state.cache.prebooked || {} } });
+                            status.textContent = 'Saved';
+                            alert('Saved prebooked slots');
+                        } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+                    };
+                    btnLoad.onclick = async () => {
+                        try {
+                            status.textContent = 'Loading...';
+                            const pb = await api(PATH.prebooked);
+                            state.cache.prebooked = pb?.data || {};
+                            drawGrid(tSS.value, sSS.value, subSS.value);
+                            drawChips(tSS.value);
+                            status.textContent = 'Loaded';
+                        } catch (e) { status.textContent = 'Error'; alert('Reload failed: ' + e.message); }
+                    };
+
+                    status.textContent = 'Loaded';
+                } catch (e) {
+                    status.textContent = 'Error';
+                    panel.innerHTML += `<div style="padding:12px;color:#fca5a5">Prebooked UI failed: ${e.message}</div>`;
+                    console.error('[Prebooked] init error:', e);
+                }
+            })();
+        }
+
+
+
+        // Constants
+        async function renderConstants() {
+            r(`
+      <div class="toolbar"><strong style="margin-left:8px">Constants</strong>${statusBar()}</div>
+      <div class="cols-2">
+        <div>
+          <label>DAYS</label><input id="c_days" type="number" min="1" />
+          <label>PERIODS</label><input id="c_periods" type="number" min="1" />
+          <label>MAX_THEORY_PASSES</label><input id="c_passes" type="number" min="1" />
+          <label>DEBUG_PLACEMENT</label><select id="c_debug"><option value="true">true</option><option value="false">false</option></select>
+          <div class="row" style="margin-top:10px">
+            <button id="btnLoad" class="secondary">Load</button>
+            <button id="btnSave">Save</button>
+          </div>
+        </div>
+        <div><div class="hint">Controls days, periods, and iteration passes for scheduling.</div></div>
+      </div>
+    `);
+            const status = document.getElementById('status');
+            const ids = (k) => document.getElementById(k);
+
+            document.getElementById('btnLoad').onclick = async () => {
+                try {
+                    status.textContent = 'Loading...';
+                    const c = await api(PATH.constants);
+                    ids('c_days').value = c.DAYS; ids('c_periods').value = c.PERIODS; ids('c_passes').value = c.MAX_THEORY_PASSES; ids('c_debug').value = String(c.DEBUG_PLACEMENT);
+                    state.cache.constants = c;
+                    status.textContent = 'Loaded';
+                } catch (e) { status.textContent = 'Error'; alert('Load failed: ' + e.message); }
+            };
+            document.getElementById('btnSave').onclick = async () => {
+                try {
+                    status.textContent = 'Saving...';
+                    const payload = { DAYS: parseInt(ids('c_days').value, 10), PERIODS: parseInt(ids('c_periods').value, 10), MAX_THEORY_PASSES: parseInt(ids('c_passes').value, 10), DEBUG_PLACEMENT: ids('c_debug').value === 'true' };
+                    await api(PATH.constants, { method: 'PUT', body: payload });
+                    state.cache.constants = payload;
+                    status.textContent = 'Saved';
+                    alert('Saved constants');
+                } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+            };
+
+            if (state.cache.constants) {
+                const c = state.cache.constants; ids('c_days').value = c.DAYS; ids('c_periods').value = c.PERIODS; ids('c_passes').value = c.MAX_THEORY_PASSES; ids('c_debug').value = String(c.DEBUG_PLACEMENT);
+            } else {
+                document.getElementById('btnLoad').click();
+            }
+        }
+
+        // Generate and display results inline
+        function renderGenerate() {
+            r(`
+      <div class="toolbar"><strong style="margin-left:8px">Generate Timetable</strong><span class="status" id="status"></span></div>
+      <div class="row" style="gap:10px;margin-top:6px">
+        <label>Seed <input id="g_seed" type="number" value="42" style="width:120px"></label>
+        <label>Max Passes Override <input id="g_pass" type="number" placeholder="(optional)" style="width:160px"></label>
+        <button id="btnGen" class="secondary">Generate</button>
+      </div>
+      <div id="results" style="margin-top:14px"></div>
+    `);
+            const status = document.getElementById('status');
+            const results = document.getElementById('results');
+
+            function buildHtmlFromCombined(combined) {
+                let html = '';
+                const sections = Object.keys(combined || {}).sort();
+                for (const sec of sections) html += buildTable(combined[sec], sec);
+                return html || '<div class="hint">No results available.</div>';
+            }
+
+            async function loadAndRender() {
+                const combined = await api(PATH.export);
+                results.innerHTML = buildHtmlFromCombined(combined);
+            }
+
+            document.getElementById('btnGen').onclick = async () => {
+                try {
+                    status.textContent = 'Running...';
+                    const seed = parseInt(document.getElementById('g_seed').value, 10);
+                    const raw = document.getElementById('g_pass').value.trim();
+                    await api(PATH.generate, { method: 'POST', body: { seed, max_passes_override: raw ? parseInt(raw, 10) : null } });
+                    status.textContent = 'Done';
+                    await loadAndRender();
+                } catch (e) {
+                    status.textContent = 'Error';
+                    alert('Generate failed: ' + e.message);
+                }
+            };
+
+            (async () => { try { await loadAndRender(); } catch (_) { } })();
+        }
+
+        // ---------- Dispatcher ----------
+        async function render() {
+            try {
+                switch (state.active) {
+                    case 'semesters': await renderSemesters(); break;
+                    case 'subjects': await renderSubjects(); break;
+                    case 'teachers': await renderTeachers(); break;
+                    case 'labs': await renderLabs(); break;
+                    case 'prebooked': await renderPrebooked(); break;
+                    case 'constants': await renderConstants(); break;
+                    case 'generate': renderGenerate(); break;
+                    default:
+                        state.active = 'semesters';
+                        await renderSemesters();
+                }
+            } catch (e) {
+                panel.innerHTML = `<div style="padding:16px;color:#fca5a5">UI error: ${e.message}</div>`;
+                console.error(e);
+            }
+        }
+
+        // Initial render
+        render();
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    state.active = (btn.dataset.view || '').trim();
+                    render();
+                };
+            });
+            state.active = 'semesters';
+            render();
+        });
+    </script>
+
+
+
+
+</body></html>
