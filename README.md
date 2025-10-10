@@ -1,5 +1,5 @@
 
-# 📅 Automatic Timetable Generator
+# 📅 Automatic Timetable Generator (To Be Updated)
 
 This project **automatically generates** class, lab, and teacher timetables based on predefined subjects, teachers, and rules — and exports them to **Excel** with clean formatting.
 
