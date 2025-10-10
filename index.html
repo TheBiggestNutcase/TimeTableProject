@@ -518,7 +518,7 @@
         <div class="header-inner container">
             <h1>Timetable Generator</h1>
             <div class="row">
-                <input id="baseUrl" type="text" placeholder="http://127.0.0.1:8000">
+                <input id="baseUrl" type="text" placeholder="https://time-table-generator-ychu.onrender.com">
                 <button id="btnSetUrl">Set Base URL</button>
             </div>
         </div>
@@ -571,7 +571,7 @@
     generate: "/generate",
   };
         const state = {
-            baseUrl: localStorage.getItem('tt_base_url') || 'http://127.0.0.1:8000',
+            baseUrl: localStorage.getItem("ttbaseurl") || "https://time-table-generator-ychu.onrender.com",
             active: 'semesters',
             cache: { semesters: null, subjects: null, teachers: null, labs: null, prebooked: null, constants: null },
             lists: { sections: [], subjectsBySemester: {}, teachers: [] },
