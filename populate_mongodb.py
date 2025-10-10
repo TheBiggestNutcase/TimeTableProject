@@ -12,7 +12,6 @@ load_dotenv()
 MONGO_URI = os.getenv('MONGO_URI')
 DB_NAME = os.getenv('DB_NAME')
 
-# Renamed to semester-based
 COLL_SEMESTERS = os.getenv('COLL_SEMESTERS')
 COLL_SUBJECTS = os.getenv('COLL_SUBJECTS')
 COLL_TEACHERS = os.getenv('COLL_TEACHERS')
