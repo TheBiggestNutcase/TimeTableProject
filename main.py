@@ -10,7 +10,7 @@ import uvicorn
 load_dotenv() 
 MONGO_CLIENT_URI = os.getenv("MONGO_CLIENT_URI")
 DB_NAME = os.getenv("DB_NAME")
-app = FastAPI(title="School Timetable API")
+app = FastAPI(title="Timetable API")
 
 # MongoDB connection 
 client = MongoClient(MONGO_CLIENT_URI)
@@ -52,7 +52,7 @@ async def fetch_timetable(section: str):
 # Example API for health check
 @app.get("/")
 async def root():
-    return {"message": "School Timetable API is running"}
+    return {"message": "Timetable API is running"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
