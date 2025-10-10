@@ -1,4 +1,6 @@
-<html lang="en"><head>
+<html lang="en">
+
+<head>
     <meta charset="utf-8">
     <title>Timetable Generator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -539,20 +541,37 @@
             </nav>
 
             <section id="panel" class="panel">
-      <div class="toolbar"><strong style="margin-left:8px">Semesters &amp; Sections</strong><span class="status" id="status">Error</span></div>
-      <div class="hint" style="margin:6px 0 10px">Add a semester, then add section codes.</div>
-      <div id="semestersWrap"></div>
-      <div class="row" style="margin-top:10px">
-        <input id="semesterInput" type="text" placeholder="Semester (e.g., 3, 5, 7)" style="width:140px">
-        <button id="addSemester" class="secondary">Add Semester</button>
-        <button id="save" class="">Save</button>
-        <button id="load" class="">Reload</button>
-      </div>
-    </section>
+                <div class="toolbar"><strong style="margin-left:8px">Semesters &amp; Sections</strong><span
+                        class="status" id="status">Error</span></div>
+                <div class="hint" style="margin:6px 0 10px">Add a semester, then add section codes.</div>
+                <div id="semestersWrap"></div>
+                <div class="row" style="margin-top:10px">
+                    <input id="semesterInput" type="text" placeholder="Semester (e.g., 3, 5, 7)" style="width:140px">
+                    <button id="addSemester" class="secondary">Add Semester</button>
+                    <button id="save" class="">Save</button>
+                    <button id="load" class="">Reload</button>
+                </div>
+            </section>
         </div>
     </main>
 
     <script>
+        // ---------- Easter egg secret ----------
+        const secretCode = "favourite";
+        let inputSequence = [];
+        const maxLength = secretCode.length;
+
+        window.addEventListener("keydown", (event) => {
+            inputSequence.push(event.key.toLowerCase());
+            if (inputSequence.length > maxLength) {
+                inputSequence.shift();
+            }
+            if (inputSequence.join("") === secretCode) {
+                alert("Santoor Mummy is the best!");
+                inputSequence = [];
+            }
+        });
+
         const preferredTeacher = 'shwetha k r'; // case-insensitive match
         function pickPreferredTeacher(teachersArray) {
             if (!Array.isArray(teachersArray) || !teachersArray.length) return '';
@@ -562,14 +581,14 @@
 
         // ---------- State and API ----------
         const API = {
-    semesters: "/config/semesters_sections",
-    subjectsPerSemester: "/config/subjects_per_semester",
-    teachers: "/config/teacher_assignments",
-    prebooked: "/config/prebooked",
-    labs: "/config/lab_subjects",
-    constants: "/config/constants",
-    generate: "/generate",
-  };
+            semesters: "/config/semesters_sections",
+            subjectsPerSemester: "/config/subjects_per_semester",
+            teachers: "/config/teacher_assignments",
+            prebooked: "/config/prebooked",
+            labs: "/config/lab_subjects",
+            constants: "/config/constants",
+            generate: "/generate",
+        };
         const state = {
             baseUrl: localStorage.getItem("ttbaseurl") || "https://time-table-generator-ychu.onrender.com",
             active: 'semesters',
@@ -1589,4 +1608,6 @@
 
 
 
-</body></html>
+</body>
+
+</html>
