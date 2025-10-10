@@ -334,7 +334,7 @@ def main():
     client = cfg["_client"]
 
     try:
-        random.seed(42)
+        random.seed(12)
         teacher_busy = defaultdict(lambda: [[False]*PERIODS for _ in range(DAYS)])
 
         lab_gen = LabTimetable(LAB_SUBJECTS, teacher_busy, days=DAYS, periods=PERIODS, prebooked=PREBOOKED)

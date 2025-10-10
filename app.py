@@ -350,7 +350,7 @@ def put_meta_constants(model: ConstantsModel):
     return {"status": "ok"}  
 
 class GenerateRequest(BaseModel):
-    seed: Optional[int] = 42
+    seed: Optional[int] = 12
     max_passes_override: Optional[int] = None  
 
 @app.post("/timetable/generate")
@@ -359,7 +359,7 @@ def generate_timetable(req: GenerateRequest):
     try:
         semesters_sections, subjects_per_semester, teacher_assignments, lab_subjects, prebooked, c = load_all_from_db()
         DAYS = c["DAYS"]; PERIODS = c["PERIODS"]; MAX_THEORY_PASSES = req.max_passes_override or c["MAX_THEORY_PASSES"]
-        random.seed(req.seed if req.seed is not None else 42)
+        random.seed(req.seed if req.seed is not None else 12)
         teacher_busy = defaultdict(lambda: [[False]*PERIODS for _ in range(DAYS)])
         lab_gen = LabTimetable(lab_subjects, teacher_busy, days=DAYS, periods=PERIODS, prebooked=prebooked)
         lab_gen.generate_lab_pairs()
