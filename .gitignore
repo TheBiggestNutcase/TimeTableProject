@@ -1,3 +1,11 @@
+# Virtual Environment
 venv3.11/
+
+# Output File
 timetable_export.xlsx
+
+# Python Cache
 __pycache__
+
+# Environment
+.env
