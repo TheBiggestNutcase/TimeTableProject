@@ -12,3 +12,6 @@ __pycache__
 
 # Temp Files
 test.py
+
+# VSCode Files
+.vscode/
