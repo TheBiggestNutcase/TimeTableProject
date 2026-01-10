@@ -7,81 +7,99 @@
     <style>
         :root {
             --bg: #0b1220;
-            /* deep navy */
             --panel: #0f172a;
-            /* dark panel */
             --text: #e2e8f0;
-            /* soft gray-blue */
             --muted: #9aa7b4;
-            /* slate */
             --card: #0c1424;
-            /* card */
             --border: #1f2a3a;
-            /* border */
-            /* Subtle accents */
             --accent: #3a6ea5;
-            /* steel blue */
             --accent-strong: #2f5b89;
-            /* darker steel blue */
             --accent-soft: #2a3a52;
-            /* hover bg */
             --accent-alt: #e7c65a;
-            /* sand */
             --accent-alt-strong: #d5b34e;
             --success: #2b7a78;
-            /* muted teal */
             --danger: #c26d6d;
-            /* muted red */
-            --shadow: 0 12px 28px rgba(0, 0, 0, .25);
-            --shadow-soft: 0 8px 16px rgba(0, 0, 0, .18);
-            --radius: 16px;
+            
+            /* Modern shadows and effects */
+            --shadow: 0 20px 40px rgba(0, 0, 0, .4), 0 8px 16px rgba(0, 0, 0, .3);
+            --shadow-soft: 0 8px 24px rgba(0, 0, 0, .25), 0 4px 8px rgba(0, 0, 0, .2);
+            --shadow-hover: 0 24px 48px rgba(58, 110, 165, .25), 0 12px 24px rgba(0, 0, 0, .3);
+            --glow: 0 0 20px rgba(58, 110, 165, .3);
+            
+            --radius: 20px;
             --radius-sm: 12px;
-            --radius-lg: 20px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            
+            /* Additional shades */
+            --accent-light: rgba(58, 110, 165, 0.1);
+            --accent-lighter: rgba(58, 110, 165, 0.05);
+            --border-light: rgba(31, 42, 58, 0.6);
         }
 
         * {
-            box-sizing: border-box
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         html,
         body {
-            height: 100%
+            height: 100%;
+            scroll-behavior: smooth;
         }
 
         body {
             margin: 0;
-            background: radial-gradient(1000px 600px at 20% -10%, #101828 0%, var(--bg) 60%) no-repeat fixed, var(--bg);
+            background: 
+                radial-gradient(ellipse 1200px 800px at 20% -10%, rgba(58, 110, 165, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 1000px 600px at 80% 90%, rgba(231, 198, 90, 0.05) 0%, transparent 60%),
+                linear-gradient(180deg, #0a111c 0%, #0b1220 100%);
+            background-attachment: fixed;
             color: var(--text);
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
             display: flex;
             flex-direction: column;
             align-items: center;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 0 24px;
         }
 
-        /* Header */
+        /* Header - Modern glassmorphism */
         header {
             width: 100%;
             position: sticky;
             top: 0;
-            z-index: 5;
-            background: linear-gradient(180deg, rgba(12, 15, 20, .9), rgba(12, 15, 20, .7));
-            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            background: rgba(12, 18, 32, 0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(31, 42, 58, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            backdrop-filter: saturate(120%) blur(8px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        header:hover {
+            background: rgba(12, 18, 32, 0.85);
+            border-bottom-color: var(--border);
         }
 
         .header-inner {
             width: 100%;
-            max-width: 1200px;
-            padding: 16px 20px;
+            max-width: 1400px;
+            padding: 20px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -89,31 +107,50 @@
 
         header h1 {
             margin: 0;
-            font-size: 22px;
-            letter-spacing: .3px;
-            color: #cfe2ff
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #cfe2ff 0%, #a5c9ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(207, 226, 255, 0.3);
         }
 
-        /* Inputs */
+        /* Inputs - Modern design */
         .row {
             display: flex;
-            gap: 12px;
+            gap: 16px;
             align-items: center;
-            flex-wrap: wrap
+            flex-wrap: wrap;
         }
 
         input[type=text],
         input[type=number],
         select,
         .sselect-input {
-            background: linear-gradient(180deg, #0b1322, #0a111c);
+            background: rgba(15, 21, 34, 0.6);
+            backdrop-filter: blur(10px);
             color: var(--text);
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border-light);
             border-radius: var(--radius-sm);
-            padding: 12px 14px;
+            padding: 14px 18px;
             outline: none;
-            transition: border-color .2s, box-shadow .2s;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                inset 0 1px 2px rgba(0, 0, 0, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        input[type=text]:hover,
+        input[type=number]:hover,
+        select:hover,
+        .sselect-input:hover {
+            border-color: var(--accent);
+            background: rgba(15, 21, 34, 0.8);
         }
 
         input[type=text]:focus,
@@ -121,167 +158,336 @@
         select:focus,
         .sselect-input:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(58, 110, 165, .18);
+            background: rgba(15, 21, 34, 0.9);
+            box-shadow: 
+                0 0 0 4px rgba(58, 110, 165, 0.2),
+                0 4px 16px rgba(58, 110, 165, 0.15),
+                inset 0 1px 2px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
         }
 
-        /* Buttons - rounded */
+        input[type=text]::placeholder,
+        input[type=number]::placeholder,
+        .sselect-input::placeholder {
+            color: var(--muted);
+            opacity: 1;
+            font-weight: 500;
+        }
+
+        /* Buttons - Modern 3D effect */
         button {
-            background: linear-gradient(180deg, var(--accent), var(--accent-strong));
-            color: #eaf2ff;
-            border: 1px solid rgba(255, 255, 255, .08);
-            border-radius: 18px;
-            /* rounded */
-            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 14px 24px;
             cursor: pointer;
-            font-weight: 700;
-            letter-spacing: .2px;
-            box-shadow: var(--shadow-soft);
-            transition: transform .05s ease, box-shadow .2s ease, background-color .2s ease, filter .2s ease;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+            text-transform: none;
+            box-shadow: 
+                0 4px 12px rgba(58, 110, 165, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         button:hover {
-            background: linear-gradient(180deg, var(--accent-strong), var(--accent-strong));
-            box-shadow: var(--shadow);
-            filter: saturate(104%);
+            background: linear-gradient(135deg, #4a7fb5 0%, var(--accent) 100%);
+            box-shadow: 
+                0 8px 24px rgba(58, 110, 165, 0.4),
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
 
         button:active {
-            transform: translateY(1px);
+            transform: translateY(0px);
+            box-shadow: 
+                0 2px 8px rgba(58, 110, 165, 0.3),
+                0 1px 2px rgba(0, 0, 0, 0.2),
+                inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         button:disabled {
-            opacity: .55;
+            opacity: 0.5;
             cursor: not-allowed;
-            filter: grayscale(.1)
+            transform: none;
+            box-shadow: none;
         }
 
-        /* Secondary (sand) — for Add Teacher / Add Assignment / key actions */
+        button:disabled:hover {
+            transform: none;
+        }
+
+        /* Secondary (sand/gold) — Modern gradient */
         button.secondary {
-            background: linear-gradient(180deg, var(--accent-alt), var(--accent-alt-strong));
-            color: #14120a;
-            border: 1px solid #f1da8f;
-            border-radius: 18px;
-            /* keep rounded */
-            box-shadow: 0 6px 14px rgba(213, 179, 78, .22), inset 0 1px 0 rgba(255, 255, 255, .25);
+            background: linear-gradient(135deg, var(--accent-alt) 0%, var(--accent-alt-strong) 100%);
+            color: #1a1508;
+            border: none;
+            border-radius: var(--radius-sm);
+            box-shadow: 
+                0 4px 12px rgba(231, 198, 90, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
         button.secondary:hover {
-            background: linear-gradient(180deg, #f0d069, #daba52);
-            box-shadow: 0 10px 22px rgba(213, 179, 78, .28);
+            background: linear-gradient(135deg, #f0d069 0%, var(--accent-alt) 100%);
+            box-shadow: 
+                0 8px 24px rgba(231, 198, 90, 0.4),
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
         }
 
         button.secondary:active {
-            transform: translateY(1px);
-            box-shadow: 0 6px 12px rgba(213, 179, 78, .24) inset;
+            transform: translateY(0px);
+            box-shadow: 
+                0 2px 8px rgba(231, 198, 90, 0.3),
+                0 1px 2px rgba(0, 0, 0, 0.2),
+                inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         button.secondary:focus-visible {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(231, 198, 90, .35), 0 8px 18px rgba(0, 0, 0, .25);
+            box-shadow: 
+                0 0 0 4px rgba(231, 198, 90, 0.4),
+                0 8px 24px rgba(231, 198, 90, 0.4),
+                0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
-        /* Warn */
+        /* Warn/Danger - Modern red gradient */
         button.warn {
-            background: linear-gradient(180deg, #c77474, #b25f5f);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .12);
-            border-radius: 18px;
+            background: linear-gradient(135deg, #d88686 0%, var(--danger) 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--radius-sm);
+            box-shadow: 
+                0 4px 12px rgba(194, 109, 109, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
-        /* Layout */
+        button.warn:hover {
+            background: linear-gradient(135deg, var(--danger) 0%, #b25f5f 100%);
+            box-shadow: 
+                0 8px 24px rgba(194, 109, 109, 0.4),
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        button.warn:active {
+            transform: translateY(0px);
+            box-shadow: 
+                0 2px 8px rgba(194, 109, 109, 0.3),
+                0 1px 2px rgba(0, 0, 0, 0.2),
+                inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Layout - Modern grid */
         main {
             width: 100%;
+            flex: 1;
+            padding: 32px 0;
         }
 
         .layout {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 16px;
-            padding: 16px;
+            gap: 24px;
+            padding: 0;
         }
 
-        @media (min-width: 980px) {
+        @media (min-width: 1024px) {
             .layout {
                 grid-template-columns: 320px 1fr;
+                gap: 32px;
             }
         }
 
+        /* Navigation - Modern sidebar */
         nav {
-            background: linear-gradient(180deg, #0f1522, #0e141f);
-            border: 1px solid var(--border);
+            background: rgba(15, 21, 34, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--border-light);
             border-radius: var(--radius);
-            padding: 14px;
+            padding: 20px;
             box-shadow: var(--shadow-soft);
             height: fit-content;
             position: sticky;
-            top: 90px;
+            top: 100px;
+            transition: all 0.3s ease;
+        }
+
+        nav:hover {
+            background: rgba(15, 21, 34, 0.85);
+            border-color: var(--border);
         }
 
         .nav-title {
             color: var(--muted);
-            font-size: 12px;
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: .08em;
-            margin: 12px 8px;
-            text-align: center
+            letter-spacing: 0.15em;
+            margin: 20px 0 12px 0;
+            padding: 0 12px;
+            text-align: left;
+            opacity: 0.8;
         }
 
         .nav-btn {
             width: 100%;
-            text-align: center;
+            text-align: left;
             background: transparent;
-            border: 1px solid transparent;
-            border-radius: 14px;
+            border: none;
+            border-radius: var(--radius-sm);
             color: var(--text);
-            padding: 12px;
+            padding: 14px 16px;
+            margin-bottom: 6px;
             cursor: pointer;
-            transition: background .2s, border-color .2s;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--accent);
+            transform: scaleY(0);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .nav-btn:hover {
-            background: #111b2a
+            background: rgba(58, 110, 165, 0.1);
+            color: #ffffff;
+            transform: translateX(4px);
         }
 
         .nav-btn.active {
-            background: #0e1a2c;
-            border-color: var(--border)
+            background: linear-gradient(90deg, rgba(58, 110, 165, 0.15), rgba(58, 110, 165, 0.05));
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 2px 8px rgba(58, 110, 165, 0.2);
         }
 
+        .nav-btn.active::before {
+            transform: scaleY(1);
+        }
+
+        /* Panel - Modern glassmorphism */
         section.panel {
-            background: linear-gradient(180deg, #0f1522, #0e141f);
-            border: 1px solid var(--border);
+            background: rgba(15, 21, 34, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--border-light);
             border-radius: var(--radius);
-            padding: 16px;
+            padding: 32px;
             min-height: 60dvh;
             box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
+        section.panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+        }
+
+        section.panel:hover {
+            border-color: var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        /* Toolbar - Modern header */
         .toolbar {
             display: flex;
-            gap: 12px;
+            gap: 16px;
             align-items: center;
-            justify-content: center;
-            margin: -16px -16px 16px -16px;
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
-            background: linear-gradient(180deg, rgba(58, 110, 165, .07), rgba(231, 198, 90, .05));
+            justify-content: space-between;
+            margin: -32px -32px 28px -32px;
+            padding: 20px 32px;
+            border-bottom: 1px solid var(--border-light);
+            background: linear-gradient(135deg, rgba(58, 110, 165, 0.1) 0%, rgba(231, 198, 90, 0.05) 100%);
+            border-radius: var(--radius) var(--radius) 0 0;
+            position: relative;
+        }
+
+        .toolbar::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 32px;
+            right: 32px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
         }
 
         .toolbar strong {
-            font-size: 16px;
-            letter-spacing: .2px
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: var(--text);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .status {
-            margin-left: auto;
-            color: var(--muted);
-            font-size: 13px
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(58, 110, 165, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(58, 110, 165, 0.3);
         }
 
         .hint {
             color: var(--muted);
-            font-size: 12px;
-            text-align: center
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 12px 16px;
+            background: rgba(58, 110, 165, 0.05);
+            border-left: 3px solid var(--accent);
+            border-radius: var(--radius-sm);
+            margin: 16px 0;
         }
 
         /* Center helpers */
@@ -289,11 +495,72 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 14px;
+            gap: 20px;
+            padding: 24px;
         }
 
         .row.center {
             justify-content: center;
+        }
+
+        /* Card pulse animation */
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: var(--shadow-soft);
+            }
+            50% {
+                box-shadow: 0 0 0 4px rgba(58, 110, 165, 0.3), var(--shadow-hover);
+            }
+        }
+
+        .card--pulse {
+            animation: pulse 0.9s ease-in-out;
+        }
+
+        /* Form elements in table */
+        table input,
+        table select {
+            background: rgba(15, 21, 34, 0.8);
+            border: 1px solid var(--border-light);
+            padding: 10px 14px;
+            font-size: 14px;
+        }
+
+        table input:focus,
+        table select:focus {
+            background: rgba(15, 21, 34, 0.95);
+            border-color: var(--accent);
+        }
+
+        /* Checkbox styling */
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* Columns layout */
+        .cols-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .cols-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Labels - Modern styling */
+        label {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: block;
         }
 
         /* Toolbar aligned row */
@@ -301,7 +568,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 14px;
+            gap: 20px;
             flex-wrap: wrap;
             width: 100%;
         }
@@ -309,14 +576,22 @@
         .toolbar-row .group {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            padding: 12px 16px;
+            background: rgba(58, 110, 165, 0.05);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
         }
 
         .toolbar-row label {
             margin: 0;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
         }
 
         .toolbar-row .sselect {
@@ -324,101 +599,193 @@
         }
 
         .toolbar-row button {
-            min-height: 46px;
-            border-radius: 18px;
+            min-height: 48px;
+            border-radius: var(--radius-sm);
         }
 
-        /* Tables */
+        /* Tables - Modern design */
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            border: 1px solid var(--border);
-            background: linear-gradient(180deg, #0b1220, #0a0f18);
-            border-radius: 14px;
+            border: 1px solid var(--border-light);
+            background: rgba(11, 18, 32, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: var(--shadow-soft);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         th,
         td {
-            border-bottom: 1px solid var(--border);
-            padding: 10px 10px;
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px;
             white-space: nowrap;
-            text-align: center
+            text-align: center;
+            font-size: 14px;
+            transition: all 0.2s ease;
         }
 
         th {
             position: sticky;
             top: 0;
-            background: #0f1a2b;
+            background: linear-gradient(180deg, rgba(58, 110, 165, 0.15) 0%, rgba(58, 110, 165, 0.05) 100%);
             color: #d2e7ff;
-            z-index: 1
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        tbody tr {
+            transition: all 0.2s ease;
         }
 
         tbody tr:hover {
-            background: var(--accent-soft)
+            background: rgba(58, 110, 165, 0.15);
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(58, 110, 165, 0.2);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
         }
 
         td.lab {
-            background: rgba(181, 159, 106, .28);
-            color: #e2e8f0;
+            background: linear-gradient(135deg, rgba(231, 198, 90, 0.2) 0%, rgba(213, 179, 78, 0.15) 100%);
+            color: var(--accent-alt);
             font-weight: 700;
-            border-left: 2px solid var(--accent-alt-strong);
+            border-left: 3px solid var(--accent-alt-strong);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
-        /* Chips */
+        /* Chips - Modern badges */
         .chip {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            padding: 6px 10px;
-            margin: 4px;
-            background: #0b1220;
+            gap: 8px;
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 8px 14px;
+            margin: 6px 4px;
+            background: rgba(58, 110, 165, 0.15);
             color: #dbeafe;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03)
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .chip:hover {
+            background: rgba(58, 110, 165, 0.25);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 
+                0 4px 12px rgba(58, 110, 165, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
         }
 
         .chip button {
             background: transparent;
             border: 0;
-            color: #ffd1d1;
+            color: #ff9999;
             cursor: pointer;
-            padding: 0 6px;
-            font-weight: 900
+            padding: 0 4px 0 8px;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 1;
+            transition: all 0.2s ease;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* SearchableSelect */
+        .chip button:hover {
+            background: rgba(194, 109, 109, 0.2);
+            color: #ff6666;
+            transform: scale(1.1);
+        }
+
+        /* SearchableSelect - Modern dropdown */
         .sselect {
             width: 260px;
+            position: relative;
         }
 
         .sselect-input {
-            border-radius: 14px;
+            border-radius: var(--radius-sm);
+            padding-right: 40px;
         }
 
         .sselect-list {
             position: absolute;
-            top: 40px;
+            top: calc(100% + 8px);
             left: 0;
             right: 0;
-            background: var(--card);
+            background: rgba(15, 21, 34, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            max-height: 220px;
-            overflow: auto;
+            border-radius: var(--radius);
+            max-height: 280px;
+            overflow-y: auto;
+            overflow-x: hidden;
             display: none;
-            z-index: 20;
-            box-shadow: var(--shadow-soft);
+            z-index: 100;
+            box-shadow: var(--shadow);
+            margin-top: 4px;
         }
 
+        .sselect-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sselect-list::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .sselect-list::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        .sselect-list::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-strong);
+        }
+
+        .sselect-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sselect-item:hover,
         .sselect-item--hi {
-            background: #12253d;
+            background: rgba(58, 110, 165, 0.2);
+            color: #ffffff;
+            padding-left: 20px;
         }
 
-        /* Modal */
+        .sselect-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Modal - Modern glassmorphism */
         .modal.hidden {
             display: none;
         }
@@ -426,68 +793,183 @@
         .modal {
             position: fixed;
             inset: 0;
-            z-index: 50;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         .modal__backdrop {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, .55);
-            backdrop-filter: blur(2px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease;
         }
 
         .modal__panel {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: min(520px, 92vw);
-            background: linear-gradient(180deg, #0f1522, #0e141f);
+            position: relative;
+            width: min(560px, 92vw);
+            max-height: 90vh;
+            background: rgba(15, 21, 34, 0.95);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: var(--radius-lg);
             box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .modal__header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border);
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--border-light);
+            background: linear-gradient(135deg, rgba(58, 110, 165, 0.1) 0%, rgba(231, 198, 90, 0.05) 100%);
         }
 
         .modal__header h3 {
             margin: 0;
             color: #cfe2ff;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
         }
 
         .modal__close {
             background: transparent;
-            border: 0;
+            border: none;
             color: var(--text);
-            font-size: 20px;
+            font-size: 28px;
             cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            opacity: 0.7;
+        }
+
+        .modal__close:hover {
+            background: rgba(194, 109, 109, 0.2);
+            color: var(--danger);
+            opacity: 1;
+            transform: rotate(90deg);
         }
 
         .modal__body {
-            padding: 16px;
+            padding: 28px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        .modal__body label {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 8px;
+            display: block;
         }
 
         .modal__footer {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            padding: 12px 16px;
-            border-top: 1px solid var(--border);
+            gap: 12px;
+            padding: 20px 28px;
+            border-top: 1px solid var(--border-light);
+            background: rgba(0, 0, 0, 0.1);
         }
 
-        /* Responsive tweaks */
-        @media (max-width: 720px) {
+        /* Responsive design - Modern breakpoints */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .layout {
+                gap: 20px;
+            }
+
+            section.panel {
+                padding: 24px;
+            }
+
+            .toolbar {
+                margin: -24px -24px 20px -24px;
+                padding: 18px 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
             header h1 {
-                font-size: 18px;
+                font-size: 20px;
+            }
+
+            .header-inner {
+                padding: 16px 20px;
+            }
+
+            nav {
+                position: relative;
+                top: 0;
+            }
+
+            section.panel {
+                padding: 20px;
+                border-radius: var(--radius-sm);
+            }
+
+            .toolbar {
+                margin: -20px -20px 16px -20px;
+                padding: 16px 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .toolbar-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+
+            .toolbar-row .group {
+                flex-direction: column;
+                align-items: stretch;
             }
 
             .sselect {
@@ -495,19 +977,122 @@
             }
 
             .row {
-                gap: 10px;
-            }
-        }
-
-        /* High-contrast preference: subtle border increase */
-        @media (prefers-contrast: more) {
-            button.secondary {
-                border-color: #ffe599;
+                gap: 12px;
             }
 
             button {
-                border-color: rgba(255, 255, 255, .12);
+                padding: 12px 20px;
+                font-size: 13px;
             }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 12px 8px;
+            }
+
+            .modal__panel {
+                width: 95vw;
+                border-radius: var(--radius);
+            }
+
+            .modal__header,
+            .modal__body,
+            .modal__footer {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 18px;
+            }
+
+            .nav-btn {
+                padding: 12px 14px;
+                font-size: 13px;
+            }
+
+            .toolbar strong {
+                font-size: 16px;
+            }
+
+            input[type=text],
+            input[type=number],
+            select,
+            .sselect-input {
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+
+            button {
+                padding: 10px 18px;
+                font-size: 12px;
+            }
+        }
+
+        /* High-contrast preference */
+        @media (prefers-contrast: more) {
+            button.secondary {
+                border: 2px solid #ffe599;
+            }
+
+            button {
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            input[type=text],
+            input[type=number],
+            select {
+                border-width: 2px;
+            }
+        }
+
+        /* Reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 6px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-strong);
+            background-clip: padding-box;
+        }
+
+        /* Selection styling */
+        ::selection {
+            background: rgba(58, 110, 165, 0.3);
+            color: #ffffff;
+        }
+
+        ::-moz-selection {
+            background: rgba(58, 110, 165, 0.3);
+            color: #ffffff;
         }
     </style>
 
@@ -519,10 +1104,6 @@
     <header>
         <div class="header-inner container">
             <h1>Timetable Generator</h1>
-            <div class="row">
-                <input id="baseUrl" type="text" placeholder="https://time-table-generator-ychu.onrender.com">
-                <button id="btnSetUrl">Set Base URL</button>
-            </div>
         </div>
     </header>
 
@@ -589,20 +1170,392 @@
             constants: "/config/constants",
             generate: "/generate",
         };
+        // ---------- Storage & Sync Manager ----------
+        const StorageManager = {
+            STORAGE_PREFIX: 'tt_config_',
+            SYNC_QUEUE_KEY: 'tt_sync_queue',
+            LAST_SYNC_KEY: 'tt_last_sync',
+            
+            // Save data to localStorage
+            saveLocal(key, data) {
+                try {
+                    const storageKey = this.STORAGE_PREFIX + key;
+                    localStorage.setItem(storageKey, JSON.stringify({
+                        data,
+                        timestamp: Date.now(),
+                        version: 1
+                    }));
+                    console.log(`[Storage] Saved ${key} to localStorage`);
+                    return true;
+                } catch (e) {
+                    console.error(`[Storage] Failed to save ${key}:`, e);
+                    // Handle quota exceeded
+                    if (e.name === 'QuotaExceededError') {
+                        alert('LocalStorage is full! Please clear some data or use a different browser.');
+                    }
+                    return false;
+                }
+            },
+            
+            // Load data from localStorage
+            loadLocal(key) {
+                try {
+                    const storageKey = this.STORAGE_PREFIX + key;
+                    const stored = localStorage.getItem(storageKey);
+                    if (!stored) return null;
+                    const parsed = JSON.parse(stored);
+                    return parsed.data;
+                } catch (e) {
+                    console.error(`[Storage] Failed to load ${key}:`, e);
+                    return null;
+                }
+            },
+            
+            // Load all cached data from localStorage
+            loadAllLocal() {
+                const keys = ['semesters', 'subjects', 'teachers', 'labs', 'prebooked', 'constants'];
+                const loaded = {};
+                keys.forEach(key => {
+                    const data = this.loadLocal(key);
+                    if (data !== null) {
+                        loaded[key] = data;
+                    }
+                });
+                return loaded;
+            },
+            
+            // Add to sync queue (for retry on network restore)
+            addToSyncQueue(path, data) {
+                try {
+                    const queue = this.getSyncQueue();
+                    // Remove existing entry for same path to avoid duplicates
+                    const filtered = queue.filter(item => item.path !== path);
+                    filtered.push({
+                        path,
+                        data,
+                        timestamp: Date.now(),
+                        retries: 0
+                    });
+                    localStorage.setItem(this.SYNC_QUEUE_KEY, JSON.stringify(filtered));
+                    console.log(`[Sync] Added to queue: ${path}`);
+                    return true;
+                } catch (e) {
+                    console.error('[Sync] Failed to add to queue:', e);
+                    return false;
+                }
+            },
+            
+            // Get sync queue
+            getSyncQueue() {
+                try {
+                    const queue = localStorage.getItem(this.SYNC_QUEUE_KEY);
+                    return queue ? JSON.parse(queue) : [];
+                } catch (e) {
+                    return [];
+                }
+            },
+            
+            // Clear sync queue
+            clearSyncQueue() {
+                localStorage.removeItem(this.SYNC_QUEUE_KEY);
+            },
+            
+            // Process sync queue (retry failed saves)
+            async processSyncQueue() {
+                const queue = this.getSyncQueue();
+                if (queue.length === 0) return;
+                
+                console.log(`[Sync] Processing ${queue.length} queued items...`);
+                const remaining = [];
+                
+                for (const item of queue) {
+                    try {
+                        // Constants endpoint sends data directly, others wrap in {data: ...}
+                        if (item.path.includes('constants')) {
+                            await api(item.path, { method: 'PUT', body: item.data });
+                        } else {
+                            await api(item.path, { method: 'PUT', body: { data: item.data } });
+                        }
+                        console.log(`[Sync] Successfully synced ${item.path}`);
+                    } catch (e) {
+                        item.retries++;
+                        if (item.retries < 5) { // Max 5 retries
+                            remaining.push(item);
+                            console.warn(`[Sync] Failed to sync ${item.path}, will retry (attempt ${item.retries})`);
+                        } else {
+                            console.error(`[Sync] Giving up on ${item.path} after ${item.retries} attempts`);
+                        }
+                    }
+                }
+                
+                if (remaining.length > 0) {
+                    localStorage.setItem(this.SYNC_QUEUE_KEY, JSON.stringify(remaining));
+                } else {
+                    this.clearSyncQueue();
+                    localStorage.setItem(this.LAST_SYNC_KEY, Date.now().toString());
+                }
+                
+                updateSyncStatus();
+            },
+            
+            // Check if online
+            isOnline() {
+                return navigator.onLine;
+            }
+        };
+
+        // Sync status indicator
+        let syncStatusElement = null;
+        function updateSyncStatus() {
+            if (!syncStatusElement) {
+                const header = document.querySelector('.header-inner');
+                if (header) {
+                    syncStatusElement = document.createElement('div');
+                    syncStatusElement.style.cssText = `
+                        padding: 8px 16px;
+                        border-radius: 20px;
+                        font-size: 12px;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        backdrop-filter: blur(10px);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                        transition: all 0.3s ease;
+                    `;
+                    header.appendChild(syncStatusElement);
+                }
+            }
+            
+            if (!syncStatusElement) return;
+            
+            const queue = StorageManager.getSyncQueue();
+            const isOnline = StorageManager.isOnline();
+            const hasPending = queue.length > 0;
+            
+            if (!isOnline) {
+                syncStatusElement.innerHTML = '🔴 Offline';
+                syncStatusElement.style.background = 'linear-gradient(135deg, rgba(194, 109, 109, 0.2) 0%, rgba(194, 109, 109, 0.1) 100%)';
+                syncStatusElement.style.color = '#ff9999';
+                syncStatusElement.style.borderColor = 'rgba(194, 109, 109, 0.4)';
+                syncStatusElement.title = 'No internet connection. Data is saved locally.';
+            } else if (hasPending) {
+                syncStatusElement.innerHTML = `🟡 Syncing (${queue.length} pending)`;
+                syncStatusElement.style.background = 'linear-gradient(135deg, rgba(231, 198, 90, 0.2) 0%, rgba(231, 198, 90, 0.1) 100%)';
+                syncStatusElement.style.color = 'var(--accent-alt)';
+                syncStatusElement.style.borderColor = 'rgba(231, 198, 90, 0.4)';
+                syncStatusElement.title = 'Syncing changes to server...';
+            } else {
+                syncStatusElement.innerHTML = '🟢 Synced';
+                syncStatusElement.style.background = 'linear-gradient(135deg, rgba(43, 122, 120, 0.2) 0%, rgba(43, 122, 120, 0.1) 100%)';
+                syncStatusElement.style.color = '#66cccc';
+                syncStatusElement.style.borderColor = 'rgba(43, 122, 120, 0.4)';
+                syncStatusElement.title = 'All changes synced to server';
+            }
+        }
+
+        // Debounce utility for auto-save
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Auto-save function - debounced save that doesn't show alerts
+        const autoSaveFunctions = {};
+        
+        function createAutoSave(path, cacheKey, getDataFn, statusFn = null) {
+            const autoSaveKey = `${path}_${cacheKey}`;
+            
+            if (!autoSaveFunctions[autoSaveKey]) {
+                autoSaveFunctions[autoSaveKey] = debounce(async () => {
+                    try {
+                        const data = getDataFn();
+                        if (data === null || data === undefined) return;
+                        
+                        if (statusFn) statusFn('Saving...');
+                        
+                        const result = await apiWithStorage(
+                            path,
+                            { method: 'PUT', body: { data } },
+                            cacheKey
+                        );
+                        
+                        if (statusFn) {
+                            if (result && result.savedLocally) {
+                                statusFn('Saved locally (offline)');
+                            } else {
+                                statusFn('Auto-saved');
+                                setTimeout(() => {
+                                    try {
+                                        const statusEl = document.getElementById('status');
+                                        if (statusEl && statusEl.textContent === 'Auto-saved') {
+                                            statusEl.textContent = 'Ready';
+                                        }
+                                    } catch (e) {}
+                                }, 2000);
+                            }
+                        }
+                    } catch (e) {
+                        console.error(`[Auto-save] Failed for ${cacheKey}:`, e);
+                        if (statusFn) statusFn('Save error');
+                    }
+                }, 1500); // Wait 1.5 seconds after last change
+            }
+            
+            return autoSaveFunctions[autoSaveKey];
+        }
+
+        // Enhanced API function with auto-save to localStorage
+        async function apiWithStorage(path, opts = {}, cacheKey = null) {
+            const method = (opts.method || 'GET').toUpperCase();
+            const isWrite = ['PUT', 'POST', 'PATCH', 'DELETE'].includes(method);
+            
+            try {
+                // Try API call
+                const result = await api(path, opts);
+                
+                // On successful write, save to localStorage and clear from queue
+                if (isWrite && cacheKey && opts.body?.data !== undefined) {
+                    StorageManager.saveLocal(cacheKey, opts.body.data);
+                    // Remove from sync queue if it was there
+                    const queue = StorageManager.getSyncQueue();
+                    const filtered = queue.filter(item => item.path !== path);
+                    if (filtered.length !== queue.length) {
+                        localStorage.setItem(StorageManager.SYNC_QUEUE_KEY, JSON.stringify(filtered));
+                        updateSyncStatus();
+                    }
+                }
+                
+                // On successful read, save to localStorage
+                if (method === 'GET' && cacheKey) {
+                    // Constants endpoint returns data directly, others wrap in {data: ...}
+                    const dataToSave = result?.data !== undefined ? result.data : result;
+                    if (dataToSave !== undefined && dataToSave !== null) {
+                        StorageManager.saveLocal(cacheKey, dataToSave);
+                    }
+                }
+                
+                return result;
+            } catch (e) {
+                // Network error on write - save locally and queue for sync
+                if (isWrite && cacheKey && opts.body?.data !== undefined) {
+                    StorageManager.saveLocal(cacheKey, opts.body.data);
+                    StorageManager.addToSyncQueue(path, opts.body.data);
+                    updateSyncStatus();
+                    
+                    // Show user-friendly message
+                    console.warn(`[Storage] Network error, saved locally. Will sync when online: ${e.message}`);
+                    return { savedLocally: true, error: e.message };
+                }
+                
+                // Network error on read - try loading from localStorage
+                if (method === 'GET' && cacheKey) {
+                    const localData = StorageManager.loadLocal(cacheKey);
+                    if (localData !== null) {
+                        console.log(`[Storage] Using cached data for ${cacheKey}`);
+                        // Constants endpoint returns data directly, others wrap
+                        if (path.includes('constants')) {
+                            return { ...localData, fromCache: true };
+                        }
+                        return { data: localData, fromCache: true };
+                    }
+                }
+                
+                throw e;
+            }
+        }
+
+        // Auto-sync when connection is restored
+        window.addEventListener('online', () => {
+            console.log('[Sync] Connection restored, syncing queued changes...');
+            updateSyncStatus();
+            StorageManager.processSyncQueue();
+        });
+
+        window.addEventListener('offline', () => {
+            console.log('[Sync] Connection lost');
+            updateSyncStatus();
+        });
+
+        // Periodic sync check (every 30 seconds)
+        setInterval(() => {
+            if (StorageManager.isOnline()) {
+                StorageManager.processSyncQueue();
+            }
+        }, 30000);
+
+        // Initialize sync status after a short delay to ensure DOM is ready
+        setTimeout(() => {
+            updateSyncStatus();
+            // Try to sync any pending items on load
+            if (StorageManager.isOnline()) {
+                StorageManager.processSyncQueue();
+            }
+            
+            // Add manual sync button
+            const header = document.querySelector('.header-inner');
+            if (header) {
+                const syncBtn = document.createElement('button');
+                syncBtn.textContent = '🔄 Sync Now';
+                syncBtn.className = 'secondary';
+                syncBtn.style.cssText = `
+                    padding: 8px 16px;
+                    font-size: 13px;
+                    margin-left: 12px;
+                    border-radius: var(--radius-sm);
+                `;
+                syncBtn.onclick = async () => {
+                    syncBtn.disabled = true;
+                    syncBtn.textContent = 'Syncing...';
+                    try {
+                        await StorageManager.processSyncQueue();
+                        const queue = StorageManager.getSyncQueue();
+                        if (queue.length === 0) {
+                            alert('All changes synced!');
+                        } else {
+                            alert(`Synced successfully, but ${queue.length} items still pending.`);
+                        }
+                    } catch (e) {
+                        alert('Sync failed: ' + e.message);
+                    } finally {
+                        syncBtn.disabled = false;
+                        syncBtn.textContent = '🔄 Sync Now';
+                        updateSyncStatus();
+                    }
+                };
+                // Insert before sync status element
+                const row = header.querySelector('.row');
+                if (row) {
+                    row.appendChild(syncBtn);
+                } else {
+                    header.appendChild(syncBtn);
+                }
+            }
+        }, 500);
+
         const state = {
             baseUrl: localStorage.getItem("ttbaseurl") || "https://time-table-generator-ychu.onrender.com",
             active: 'semesters',
-            cache: { semesters: null, subjects: null, teachers: null, labs: null, prebooked: null, constants: null },
+            cache: StorageManager.loadAllLocal(), // Load from localStorage first
             lists: { sections: [], subjectsBySemester: {}, teachers: [] },
         };
-        document.getElementById('baseUrl').value = state.baseUrl;
-        document.getElementById('btnSetUrl').onclick = () => {
-            const v = document.getElementById('baseUrl').value.trim().replace(/\/+$/, '');
-            if (!v) return alert('Enter a valid URL');
-            state.baseUrl = v; localStorage.setItem('tt_base_url', v);
-            alert('Base URL set to ' + v);
-            render();
-        };
+        // Ensure cache structure even if localStorage is empty
+        state.cache.semesters = state.cache.semesters || null;
+        state.cache.subjects = state.cache.subjects || null;
+        state.cache.teachers = state.cache.teachers || null;
+        state.cache.labs = state.cache.labs || null;
+        state.cache.prebooked = state.cache.prebooked || null;
+        state.cache.constants = state.cache.constants || null;
         async function api(path, opts = {}) {
             const url = state.baseUrl + path;
             const hasBody = opts.body !== undefined && opts.body !== null;
@@ -636,14 +1589,21 @@
         function buildTable(grid, title) {
             if (!grid || !grid.length) return '<div class="hint">Empty.</div>';
             const cols = grid[0].length;
-            let html = `<div style="margin:8px 0;font-weight:700">${title}</div><table><thead><tr><th>Day \\ Period</th>${daysRow(cols)}</tr></thead><tbody>`;
+            let html = `
+                <div style="margin:24px 0 16px 0; padding:16px 20px; background:rgba(58, 110, 165, 0.1); border-left:4px solid var(--accent); border-radius:var(--radius-sm); font-size:18px; font-weight:700; color:#d2e7ff; letter-spacing:-0.3px">
+                    ${title}
+                </div>
+                <table>
+                    <thead><tr><th>Day \\ Period</th>${daysRow(cols)}</tr></thead>
+                    <tbody>
+            `;
             for (let d = 0; d < grid.length; d++) {
-                html += `<tr><td>${days[d] || ('D' + (d + 1))}</td>`;
+                html += `<tr><td style="font-weight:600; color:#d2e7ff">${days[d] || ('D' + (d + 1))}</td>`;
                 for (let p = 0; p < cols; p++) {
                     const cell = grid[d][p];
                     const isLab = cell === 'LAB';
                     const text = isLab ? 'LAB' : (cell ? String(cell).slice(0, 30) : '-');
-                    html += `<td class="${isLab ? 'lab' : ''}" title="${isLab ? 'LAB' : (cell || '')}">${text}</td>`;
+                    html += `<td class="${isLab ? 'lab' : ''}" title="${isLab ? 'LAB' : (cell || '')}" style="font-size:13px; font-weight:${isLab ? '700' : '500'}">${text}</td>`;
                 }
                 html += `</tr>`;
             }
@@ -800,55 +1760,92 @@
         async function renderSemesters() {
             r(`
       <div class="toolbar"><strong style="margin-left:8px">Semesters & Sections</strong>${statusBar()}</div>
-      <div class="hint" style="margin:6px 0 10px">Add a semester, then add section codes.</div>
-      <div id="semestersWrap"></div>
-      <div class="row" style="margin-top:10px">
-        <input id="semesterInput" type="text" placeholder="Semester (e.g., 3, 5, 7)" style="width:140px">
+      <div class="hint" style="margin:6px 0 10px">Add a semester, then add section codes. Changes are auto-saved.</div>
+      <div class="row" style="margin-bottom:24px; padding:20px; background:rgba(58, 110, 165, 0.05); border-radius:var(--radius-sm); border:1px solid var(--border-light)">
+        <input id="semesterInput" type="text" placeholder="Semester (e.g., 3, 5, 7)" style="width:160px">
         <button id="addSemester" class="secondary">Add Semester</button>
-        <button id="save" class="">Save</button>
+        <button id="syncNow" class="">🔄 Sync Now</button>
         <button id="load" class="">Reload</button>
       </div>
+      <div id="semestersWrap"></div>
     `);
             const status = document.getElementById('status');
             const wrap = document.getElementById('semestersWrap');
+            
+            // Create auto-save function for semesters
+            const autoSave = createAutoSave(
+                PATH.semesters,
+                'semesters',
+                () => state.cache.semesters || {},
+                (msg) => { if (status) status.textContent = msg; }
+            );
 
             function draw(map) {
                 wrap.innerHTML = '';
                 Object.keys(map).sort((a, b) => parseInt(a) - parseInt(b)).forEach(semester => {
                     const row = document.createElement('div');
-                    row.style.border = '1px solid var(--border)'; row.style.borderRadius = '8px'; row.style.padding = '8px'; row.style.marginBottom = '8px';
+                    row.style.cssText = `
+                        border: 1px solid var(--border-light);
+                        border-radius: var(--radius);
+                        padding: 20px;
+                        margin-bottom: 16px;
+                        background: rgba(15, 21, 34, 0.5);
+                        backdrop-filter: blur(10px);
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                        transition: all 0.3s ease;
+                    `;
+                    row.onmouseenter = () => {
+                        row.style.borderColor = 'var(--accent)';
+                        row.style.boxShadow = '0 8px 24px rgba(58, 110, 165, 0.25)';
+                    };
+                    row.onmouseleave = () => {
+                        row.style.borderColor = 'var(--border-light)';
+                        row.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+                    };
                     const chips = (map[semester] || []).map(sec => `<span class="chip">${sec}<button data-x="${sec}" data-semester="${semester}">×</button></span>`).join(' ');
                     row.innerHTML = `
-          <div class="row" style="justify-content:space-between">
-            <div><strong>Semester ${semester}</strong></div>
-            <div class="row">
-              <input data-add="${semester}" type="text" placeholder="Add section (e.g., A)" style="width:140px">
+          <div class="row" style="justify-content:space-between; align-items:center; margin-bottom:16px">
+            <div style="font-size:18px; font-weight:700; color:#d2e7ff">Semester ${semester}</div>
+            <div class="row" style="gap:12px; flex-wrap:wrap">
+              <input data-add="${semester}" type="text" placeholder="Add section (e.g., A)" style="width:160px; flex-shrink:0">
               <button data-addbtn="${semester}" class="secondary">Add Section</button>
               <button data-del="${semester}" class="warn">Delete Semester</button>
             </div>
           </div>
-          <div style="margin-top:8px">${chips || '<span class="hint">No sections yet</span>'}</div>
+          <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border-light)">${chips || '<span class="hint">No sections yet</span>'}</div>
         `;
                     wrap.appendChild(row);
                 });
                 wrap.querySelectorAll('button[data-del]').forEach(b => {
-                    b.onclick = () => { const s = b.getAttribute('data-del'); delete state.cache.semesters[y]; draw(state.cache.semesters); };
+                    b.onclick = () => { 
+                        const s = b.getAttribute('data-del'); 
+                        delete state.cache.semesters[s]; 
+                        state.lists.sections = buildSectionList(state.cache.semesters);
+                        draw(state.cache.semesters);
+                        autoSave();
+                    };
                 });
                 wrap.querySelectorAll('button[data-addbtn]').forEach(b => {
                     b.onclick = () => {
                         const s = b.getAttribute('data-addbtn');
-                        const inp = wrap.querySelector(`input[data-add="${y}"]`);
+                        const inp = wrap.querySelector(`input[data-add="${s}"]`);
                         const val = (inp.value || '').trim().toUpperCase();
                         if (!val) return;
-                        state.cache.semesters[y] = unique([...(state.cache.semesters[y] || []), val]);
-                        inp.value = ''; draw(state.cache.semesters);
+                        state.cache.semesters[s] = unique([...(state.cache.semesters[s] || []), val]);
+                        state.lists.sections = buildSectionList(state.cache.semesters);
+                        inp.value = ''; 
+                        draw(state.cache.semesters);
+                        autoSave();
                     };
                 });
                 wrap.querySelectorAll('button[data-x]').forEach(b => {
                     b.onclick = () => {
-                        const sec = b.getAttribute('data-x'); const s = b.getAttribute('data-semester');
-                        state.cache.semesters[y] = (state.cache.semesters[y] || []).filter(s => s !== sec);
+                        const sec = b.getAttribute('data-x'); 
+                        const s = b.getAttribute('data-semester');
+                        state.cache.semesters[s] = (state.cache.semesters[s] || []).filter(secItem => secItem !== sec);
+                        state.lists.sections = buildSectionList(state.cache.semesters);
                         draw(state.cache.semesters);
+                        autoSave();
                     };
                 });
             }
@@ -856,30 +1853,64 @@
             async function load() {
                 try {
                     status.textContent = 'Loading...';
-                    const res = await api(PATH.semesters);
-                    state.cache.semesters = res?.data || {};
-                    state.lists.sections = buildSectionList(state.cache.semesters);
-                    draw(state.cache.semesters);
-                    status.textContent = 'Loaded';
+                    
+                    // Try to load from localStorage first (instant)
+                    const localData = StorageManager.loadLocal('semesters');
+                    if (localData !== null) {
+                        state.cache.semesters = localData;
+                        state.lists.sections = buildSectionList(state.cache.semesters);
+                        draw(state.cache.semesters);
+                        status.textContent = 'Loaded from cache';
+                    }
+                    
+                    // Then try to sync with server
+                    try {
+                        const res = await apiWithStorage(PATH.semesters, {}, 'semesters');
+                        if (res.fromCache) {
+                            status.textContent = 'Loaded from cache (offline)';
+                        } else {
+                            state.cache.semesters = res?.data || state.cache.semesters || {};
+                            state.lists.sections = buildSectionList(state.cache.semesters);
+                            draw(state.cache.semesters);
+                            status.textContent = 'Loaded & synced';
+                        }
+                    } catch (e) {
+                        // If API fails but we have local data, that's okay
+                        if (localData === null) throw e;
+                        console.warn('Using cached data due to network error:', e);
+                    }
                 } catch (e) { status.textContent = 'Error'; alert('Load failed: ' + e.message); }
             }
 
             document.getElementById('addSemester').onclick = () => {
                 const s = document.getElementById('semesterInput').value.trim();
-                if (!y) return;
+                if (!s) return;
                 state.cache.semesters = state.cache.semesters || {};
-                if (!state.cache.semesters[y]) state.cache.semesters[y] = [];
+                if (!state.cache.semesters[s]) state.cache.semesters[s] = [];
+                state.lists.sections = buildSectionList(state.cache.semesters);
                 document.getElementById('semesterInput').value = '';
                 draw(state.cache.semesters);
+                autoSave();
             };
-            document.getElementById('save').onclick = async () => {
+            document.getElementById('syncNow').onclick = async () => {
                 try {
-                    status.textContent = 'Saving...';
-                    await api(PATH.semesters, { method: 'PUT', body: { data: state.cache.semesters || {} } });
+                    status.textContent = 'Syncing...';
+                    const result = await apiWithStorage(
+                        PATH.semesters, 
+                        { method: 'PUT', body: { data: state.cache.semesters || {} } },
+                        'semesters'
+                    );
                     state.lists.sections = buildSectionList(state.cache.semesters);
-                    status.textContent = 'Saved';
-                    alert('Saved semesters & sections');
-                } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+                    if (result && result.savedLocally) {
+                        status.textContent = 'Queued for sync (offline)';
+                    } else {
+                        status.textContent = 'Synced';
+                        setTimeout(() => { if (status) status.textContent = 'Ready'; }, 2000);
+                    }
+                } catch (e) { 
+                    status.textContent = 'Sync error'; 
+                    console.error('Sync failed:', e);
+                }
             };
             document.getElementById('load').onclick = load;
 
@@ -889,25 +1920,43 @@
         // Subjects per semester
         async function renderSubjects() {
             r(`
-      <div class="toolbar"><strong style="margin-left:8px">Subjects Per Semester</strong>${statusBar()}</div>
+      <div class="toolbar"><strong style="margin-left:8px">Subjects Per Semester</strong><span class="status" id="status"></span></div>
+      <div class="hint" style="margin:6px 0 10px">Changes are auto-saved.</div>
       <div class="row" style="gap:10px;margin-bottom:8px">
         <label>Semester <span id="subSemesterHost"></span></label>
         <button id="addRow" class="secondary">Add Subject</button>
-        <button id="save">Save</button>
+        <button id="syncNow">🔄 Sync Now</button>
         <button id="load">Reload</button>
       </div>
       <table id="tbl"><thead><tr><th>Subject Name</th><th>Periods/Week</th><th>Actions</th></tr></thead><tbody></tbody></table>
-      <div class="hint" style="margin-top:8px">Saved as {"semester":{"SUBJECT": periods, ...}}.</div>
     `);
             const status = document.getElementById('status');
+            if (!status) {
+                console.error('Status element not found');
+                return;
+            }
+            status.textContent = 'Ready';
             const semesterHost = document.getElementById('subSemesterHost');
             const tbody = document.querySelector('#tbl tbody');
+            
+            let currentSemester = '';
+            let autoSave = null;
 
             async function ensureSemesters() {
                 if (!state.cache.semesters) {
-                    const res = await api(PATH.semesters);
-                    state.cache.semesters = res?.data || {};
-                    state.lists.sections = buildSectionList(state.cache.semesters);
+                    const localData = StorageManager.loadLocal('semesters');
+                    if (localData !== null) {
+                        state.cache.semesters = localData;
+                        state.lists.sections = buildSectionList(state.cache.semesters);
+                    } else {
+                        try {
+                            const res = await apiWithStorage(PATH.semesters, {}, 'semesters');
+                            state.cache.semesters = res?.data || res || {};
+                            state.lists.sections = buildSectionList(state.cache.semesters);
+                        } catch (e) {
+                            state.cache.semesters = {};
+                        }
+                    }
                 }
             }
             function ensureSubjectsMap() { state.cache.subjects = state.cache.subjects || {}; Object.keys(state.cache.semesters || {}).forEach(y => { state.cache.subjects[y] = state.cache.subjects[y] || {}; }); }
@@ -921,6 +1970,16 @@
           <td><input type="number" value="${ppw}" min="1" style="width:120px"></td>
           <td><button class="warn">Delete</button></td>
         `;
+                    const nameInput = tr.querySelector('input[type="text"]');
+                    const ppwInput = tr.querySelector('input[type="number"]');
+                    const updateFn = () => {
+                        collect(semester);
+                        if (autoSave) autoSave();
+                    };
+                    nameInput.addEventListener('input', debounce(updateFn, 500));
+                    nameInput.addEventListener('blur', updateFn);
+                    ppwInput.addEventListener('input', debounce(updateFn, 500));
+                    ppwInput.addEventListener('blur', updateFn);
                     tbody.appendChild(tr);
                 });
             }
@@ -932,6 +1991,7 @@
                     if (name && ppw > 0) map[name] = ppw;
                 });
                 state.cache.subjects[semester] = map;
+                state.lists.subjectsBySemester = state.cache.subjects;
             }
 
             document.getElementById('addRow').onclick = () => {
@@ -939,50 +1999,134 @@
                 tr.innerHTML = `<td><input type="text" placeholder="Subject name" style="width:100%"></td>
                       <td><input type="number" min="1" value="3" style="width:120px"></td>
                       <td><button class="warn">Delete</button></td>`;
+                const nameInput = tr.querySelector('input[type="text"]');
+                const ppwInput = tr.querySelector('input[type="number"]');
+                const updateFn = () => {
+                    collect(currentSemester);
+                    if (autoSave) autoSave();
+                };
+                nameInput.addEventListener('input', debounce(updateFn, 500));
+                nameInput.addEventListener('blur', updateFn);
+                ppwInput.addEventListener('input', debounce(updateFn, 500));
+                ppwInput.addEventListener('blur', updateFn);
                 tbody.appendChild(tr);
             };
-            tbody.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON') e.target.closest('tr').remove(); });
-            document.getElementById('save').onclick = async () => {
+            tbody.addEventListener('click', (e) => { 
+                if (e.target.tagName === 'BUTTON') {
+                    e.target.closest('tr').remove();
+                    collect(currentSemester);
+                    if (autoSave) autoSave();
+                }
+            });
+            document.getElementById('syncNow').onclick = async () => {
                 try {
-                    const s = semesterSelect.value;
-                    collect(y);
-                    status.textContent = 'Saving...';
-                    await api(PATH.subjects, { method: 'PUT', body: { data: state.cache.subjects } });
+                    collect(semesterSelect.value);
+                    status.textContent = 'Syncing...';
+                    const result = await apiWithStorage(
+                        PATH.subjects, 
+                        { method: 'PUT', body: { data: state.cache.subjects } },
+                        'subjects'
+                    );
                     state.lists.subjectsBySemester = state.cache.subjects;
-                    status.textContent = 'Saved';
-                    alert('Saved subjects per semester');
-                } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+                    if (result && result.savedLocally) {
+                        status.textContent = 'Queued for sync (offline)';
+                    } else {
+                        status.textContent = 'Synced';
+                        setTimeout(() => { if (status) status.textContent = 'Ready'; }, 2000);
+                    }
+                } catch (e) { 
+                    status.textContent = 'Sync error';
+                    console.error('Sync failed:', e);
+                }
             };
             document.getElementById('load').onclick = async () => {
                 try {
                     status.textContent = 'Loading...';
-                    const res = await api(PATH.subjects);
-                    state.cache.subjects = res?.data || {};
-                    ensureSubjectsMap();
-                    draw(semesterSelect.value);
-                    status.textContent = 'Loaded';
+                    
+                    // Try to load from localStorage first
+                    const localData = StorageManager.loadLocal('subjects');
+                    if (localData !== null) {
+                        state.cache.subjects = localData;
+                        ensureSubjectsMap();
+                        draw(semesterSelect.value);
+                        status.textContent = 'Loaded from cache';
+                    }
+                    
+                    // Then try to sync with server
+                    try {
+                        const res = await apiWithStorage(PATH.subjects, {}, 'subjects');
+                        if (res.fromCache) {
+                            status.textContent = 'Loaded from cache (offline)';
+                        } else {
+                            state.cache.subjects = res?.data || state.cache.subjects || {};
+                            ensureSubjectsMap();
+                            draw(semesterSelect.value);
+                            status.textContent = 'Loaded & synced';
+                        }
+                    } catch (e) {
+                        if (localData === null) throw e;
+                        console.warn('Using cached data due to network error:', e);
+                    }
                 } catch (e) { status.textContent = 'Error'; alert('Load failed: ' + e.message); }
             };
 
             await ensureSemesters();
             const semestersList = Object.keys(state.cache.semesters || {}).sort((a, b) => parseInt(a) - parseInt(b));
-            let currentSemester = semestersList[0] || '';
+            currentSemester = semestersList[0] || '';
             const semesterSelect = searchableSelect(semesterHost, semestersList, currentSemester, (val) => {
                 if (currentSemester) collect(currentSemester);
                 currentSemester = val;
                 draw(currentSemester);
+                // Recreate auto-save for new semester
+                autoSave = createAutoSave(
+                    PATH.subjects,
+                    'subjects',
+                    () => state.cache.subjects || {},
+                    (msg) => { if (status) status.textContent = msg; }
+                );
             }, "Search semester...");
-            const res = await api(PATH.subjects);
-            state.cache.subjects = res?.data || {};
-            ensureSubjectsMap();
-            state.lists.subjectsBySemester = state.cache.subjects;
-            draw(currentSemester);
+            
+            // Create initial auto-save function
+            autoSave = createAutoSave(
+                PATH.subjects,
+                'subjects',
+                () => state.cache.subjects || {},
+                (msg) => { if (status) status.textContent = msg; }
+            );
+            // Try to load subjects - from cache first, then API
+            const localSubjects = StorageManager.loadLocal('subjects');
+            if (localSubjects !== null) {
+                state.cache.subjects = localSubjects;
+                ensureSubjectsMap();
+                state.lists.subjectsBySemester = state.cache.subjects;
+                draw(currentSemester);
+                status.textContent = 'Loaded from cache';
+            }
+            
+            try {
+                const res = await apiWithStorage(PATH.subjects, {}, 'subjects');
+                if (!res.fromCache) {
+                    state.cache.subjects = res?.data || state.cache.subjects || {};
+                    ensureSubjectsMap();
+                    state.lists.subjectsBySemester = state.cache.subjects;
+                    draw(currentSemester);
+                    status.textContent = 'Loaded & synced';
+                } else if (localSubjects === null) {
+                    status.textContent = 'Loaded from cache (offline)';
+                }
+            } catch (e) {
+                console.warn('Failed to load subjects from API, using cache:', e);
+                if (localSubjects === null) {
+                    status.textContent = 'Error loading';
+                }
+            }
         }
 
         // Teacher assignments
         async function renderTeachers() {
             panel.innerHTML = `
     <div class="toolbar"><strong style="margin-left:8px">Teacher Assignments</strong><span class="status" id="status"></span></div>
+    <div class="hint" style="margin:6px 0 10px">Changes are auto-saved.</div>
     <div class="center">
       <div class="toolbar-row" style="margin-bottom:6px">
   <div class="group">
@@ -991,7 +2135,7 @@
   </div>
   <div class="group">
     <button id="btnAddTeacher" class="secondary" style="min-width:160px">Add Teacher</button>
-    <button id="save">Save</button>
+    <button id="syncNow">🔄 Sync Now</button>
     <button id="load">Reload</button>
   </div>
 </div>
@@ -1020,6 +2164,44 @@
             const status = document.getElementById('status');
             const wrap = document.getElementById('teachWrap');
 
+            // Create auto-save function for teachers
+            const autoSave = createAutoSave(
+                PATH.teachers,
+                'teachers',
+                () => {
+                    const out = {};
+                    wrap.querySelectorAll('[data-teacher]').forEach(card => {
+                        const t = card.getAttribute('data-teacher');
+                        const rows = [];
+                        card.querySelectorAll('tbody tr').forEach(tr => {
+                            const sec = tr.children[0].querySelector('.sselect-value').textContent.trim();
+                            const subj = tr.children[1].querySelector('.sselect-value').textContent.trim();
+                            if (sec && subj) rows.push([sec, subj]);
+                        });
+                        if (rows.length) out[t] = rows;
+                    });
+                    return out;
+                },
+                (msg) => { if (status) status.textContent = msg; }
+            );
+
+            // Helper function to collect teacher data and save
+            function collectAndSaveTeachers() {
+                const out = {};
+                wrap.querySelectorAll('[data-teacher]').forEach(card => {
+                    const t = card.getAttribute('data-teacher');
+                    const rows = [];
+                    card.querySelectorAll('tbody tr').forEach(tr => {
+                        const sec = tr.children[0].querySelector('.sselect-value')?.textContent.trim() || '';
+                        const subj = tr.children[1].querySelector('.sselect-value')?.textContent.trim() || '';
+                        if (sec && subj) rows.push([sec, subj]);
+                    });
+                    if (rows.length) out[t] = rows;
+                });
+                state.cache.teachers = out;
+                autoSave();
+            }
+
             // Modal helpers
             const modal = document.getElementById('modal');
             const modalOpen = () => { modal.classList.remove('hidden'); modal.setAttribute('aria-hidden', 'false'); document.getElementById('newTeacherName').focus(); };
@@ -1029,8 +2211,36 @@
             let findSS = null;
 
             async function ensureRefs() {
-                if (!state.cache.semesters) { const s = await api(PATH.semesters); state.cache.semesters = y?.data || {}; state.lists.sections = buildSectionList(state.cache.semesters); }
-                if (!state.cache.subjects) { const s = await api(PATH.subjects); state.cache.subjects = s?.data || {}; state.lists.subjectsBySemester = state.cache.subjects; }
+                if (!state.cache.semesters) { 
+                    const localSemesters = StorageManager.loadLocal('semesters');
+                    if (localSemesters) {
+                        state.cache.semesters = localSemesters;
+                        state.lists.sections = buildSectionList(state.cache.semesters);
+                    } else {
+                        try {
+                            const s = await apiWithStorage(PATH.semesters, {}, 'semesters');
+                            state.cache.semesters = s?.data || s || {};
+                            state.lists.sections = buildSectionList(state.cache.semesters);
+                        } catch (e) {
+                            state.cache.semesters = {};
+                        }
+                    }
+                }
+                if (!state.cache.subjects) { 
+                    const localSubjects = StorageManager.loadLocal('subjects');
+                    if (localSubjects) {
+                        state.cache.subjects = localSubjects;
+                        state.lists.subjectsBySemester = state.cache.subjects;
+                    } else {
+                        try {
+                            const s = await apiWithStorage(PATH.subjects, {}, 'subjects');
+                            state.cache.subjects = s?.data || s || {};
+                            state.lists.subjectsBySemester = state.cache.subjects;
+                        } catch (e) {
+                            state.cache.subjects = {};
+                        }
+                    }
+                }
             }
 
             function scrollToTeacher(name) {
@@ -1049,17 +2259,36 @@
                 Object.keys(data).sort().forEach(t => {
                     const card = document.createElement('div');
                     card.dataset.teacher = t;
-                    card.style.border = '1px solid var(--border)'; card.style.borderRadius = '14px'; card.style.padding = '12px'; card.style.margin = '12px auto'; card.style.maxWidth = '940px';
-                    card.style.boxShadow = 'var(--shadow-soft)';
+                    card.style.cssText = `
+                        border: 1px solid var(--border-light);
+                        border-radius: var(--radius);
+                        padding: 24px;
+                        margin: 16px auto;
+                        max-width: 1000px;
+                        background: rgba(15, 21, 34, 0.6);
+                        backdrop-filter: blur(10px);
+                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+                        transition: all 0.3s ease;
+                    `;
+                    card.onmouseenter = () => {
+                        card.style.borderColor = 'var(--accent)';
+                        card.style.boxShadow = '0 8px 32px rgba(58, 110, 165, 0.25)';
+                        card.style.transform = 'translateY(-2px)';
+                    };
+                    card.onmouseleave = () => {
+                        card.style.borderColor = 'var(--border-light)';
+                        card.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.2)';
+                        card.style.transform = 'translateY(0)';
+                    };
                     card.innerHTML = `
-        <div class="row" style="justify-content:space-between; align-items:center">
-          <strong style="font-size:16px">${t}</strong>
-          <div class="row">
+        <div class="row" style="justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:16px; border-bottom:2px solid var(--border-light)">
+          <strong style="font-size:20px; font-weight:700; color:#d2e7ff; letter-spacing:-0.3px">${t}</strong>
+          <div class="row" style="gap:12px; flex-wrap:wrap">
             <button class="warn" data-del="${t}">Delete Teacher</button>
             <button class="secondary" data-add="${t}">Add Assignment</button>
           </div>
         </div>
-        <table style="margin-top:10px"><thead><tr><th>Section</th><th>Subject</th><th>Actions</th></tr></thead><tbody></tbody></table>
+        <table style="margin-top:20px; width:100%"><thead><tr><th>Section</th><th>Subject</th><th>Actions</th></tr></thead><tbody></tbody></table>
       `;
                     wrap.appendChild(card);
                     const tbody = card.querySelector('tbody');
@@ -1071,27 +2300,48 @@
                         const td3 = document.createElement('td');
                         const secHost = document.createElement('div');
                         td1.appendChild(secHost);
-                        const secSS = searchableSelect(secHost, sections, secVal || sections[0] || '', onSectionChange, "Search section...");
                         const subjHost = document.createElement('div');
                         td2.appendChild(subjHost);
-                        function onSectionChange(newSec) {
+                        
+                        const initSemester = (String(secVal || sections[0] || '').match(/^\d+/) || [''])[0];
+                        const initSubs = Object.keys(state.lists.subjectsBySemester[initSemester] || {});
+                        
+                        // Create subject select first (will be updated by section select)
+                        let subjSS = searchableSelect(subjHost, initSubs, subjVal || initSubs[0] || '', (v) => {
+                            collectAndSaveTeachers();
+                        }, "Search subject...");
+                        
+                        // Create section select with reference to subject select
+                        const secSS = searchableSelect(secHost, sections, secVal || sections[0] || '', (newSec) => {
                             const s = (String(newSec).match(/^\d+/) || [''])[0];
-                            const subs = Object.keys(state.lists.subjectsBySemester[y] || {});
+                            const subs = Object.keys(state.lists.subjectsBySemester[s] || {});
                             subjSS.setOptions(subs);
                             if (subs.length && !subs.includes(subjSS.value)) subjSS.value = subs[0];
-                        }
-                        const initSemester = (String(secSS.value).match(/^\d+/) || [''])[0];
-                        const initSubs = Object.keys(state.lists.subjectsBySemester[initSemester] || {});
-                        const subjSS = searchableSelect(subjHost, initSubs, subjVal || initSubs[0] || '', (v) => { }, "Search subject...");
-                        const del = document.createElement('button'); del.textContent = 'Delete'; del.className = 'warn'; del.onclick = () => tr.remove();
+                            collectAndSaveTeachers();
+                        }, "Search section...");
+                        
+                        const del = document.createElement('button'); 
+                        del.textContent = 'Delete'; 
+                        del.className = 'warn'; 
+                        del.onclick = () => {
+                            tr.remove();
+                            collectAndSaveTeachers();
+                        };
                         td3.appendChild(del);
                         tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
                         tbody.appendChild(tr);
                     }
 
                     (data[t] || []).forEach(([sec, subj]) => addRow(sec, subj));
-                    card.querySelector('button[data-add]').onclick = () => addRow();
-                    card.querySelector('button[data-del]').onclick = () => { delete state.cache.teachers[t]; draw(); };
+                    card.querySelector('button[data-add]').onclick = () => {
+                        addRow();
+                        // Auto-save will be triggered when user selects section/subject
+                    };
+                    card.querySelector('button[data-del]').onclick = () => { 
+                        delete state.cache.teachers[t]; 
+                        draw();
+                        collectAndSaveTeachers();
+                    };
                 });
 
                 // Rebuild search index for findSS
@@ -1120,6 +2370,7 @@
                 if (!state.cache.teachers[name]) state.cache.teachers[name] = [];
                 modalClose();
                 draw();
+                collectAndSaveTeachers();
                 if (defaultFind) {
                     // Delay to ensure DOM is painted
                     requestAnimationFrame(() => scrollToTeacher(defaultFind));
@@ -1131,25 +2382,36 @@
             });
             window.addEventListener('keydown', (e) => { if (!modal.classList.contains('hidden') && e.key === 'Escape') modalClose(); });
 
-            document.getElementById('save').onclick = async () => {
+            document.getElementById('syncNow').onclick = async () => {
                 try {
                     const out = {};
                     wrap.querySelectorAll('[data-teacher]').forEach(card => {
                         const t = card.getAttribute('data-teacher');
                         const rows = [];
                         card.querySelectorAll('tbody tr').forEach(tr => {
-                            const sec = tr.children[0].querySelector('.sselect-value').textContent.trim();
-                            const subj = tr.children[1].querySelector('.sselect-value').textContent.trim();
+                            const sec = tr.children[0].querySelector('.sselect-value')?.textContent.trim() || '';
+                            const subj = tr.children[1].querySelector('.sselect-value')?.textContent.trim() || '';
                             if (sec && subj) rows.push([sec, subj]);
                         });
                         if (rows.length) out[t] = rows;
                     });
-                    status.textContent = 'Saving...';
-                    await api(PATH.teachers, { method: 'PUT', body: { data: out } });
+                    status.textContent = 'Syncing...';
+                    const result = await apiWithStorage(
+                        PATH.teachers, 
+                        { method: 'PUT', body: { data: out } },
+                        'teachers'
+                    );
                     state.cache.teachers = out;
-                    status.textContent = 'Saved';
-                    alert('Saved teacher assignments');
-                } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+                    if (result && result.savedLocally) {
+                        status.textContent = 'Queued for sync (offline)';
+                    } else {
+                        status.textContent = 'Synced';
+                        setTimeout(() => { if (status) status.textContent = 'Ready'; }, 2000);
+                    }
+                } catch (e) { 
+                    status.textContent = 'Sync error';
+                    console.error('Sync failed:', e);
+                }
             };
             document.getElementById('load').onclick = load;
 
@@ -1157,10 +2419,29 @@
                 try {
                     status.textContent = 'Loading...';
                     await ensureRefs();
-                    const res = await api(PATH.teachers);
-                    state.cache.teachers = res?.data || {};
-                    draw();
-                    status.textContent = 'Loaded';
+                    
+                    // Try to load from localStorage first
+                    const localData = StorageManager.loadLocal('teachers');
+                    if (localData !== null) {
+                        state.cache.teachers = localData;
+                        draw();
+                        status.textContent = 'Loaded from cache';
+                    }
+                    
+                    // Then try to sync with server
+                    try {
+                        const res = await apiWithStorage(PATH.teachers, {}, 'teachers');
+                        if (res.fromCache) {
+                            status.textContent = 'Loaded from cache (offline)';
+                        } else {
+                            state.cache.teachers = res?.data || state.cache.teachers || {};
+                            draw();
+                            status.textContent = 'Loaded & synced';
+                        }
+                    } catch (e) {
+                        if (localData === null) throw e;
+                        console.warn('Using cached data due to network error:', e);
+                    }
                 } catch (e) { status.textContent = 'Error'; alert('Load failed: ' + e.message); }
             }
             await load();
@@ -1171,27 +2452,73 @@
         async function renderLabs() {
             r(`
       <div class="toolbar"><strong style="margin-left:8px">Lab Subjects</strong>${statusBar()}</div>
+      <div class="hint" style="margin:6px 0 10px">Changes are auto-saved.</div>
       <div class="row" style="gap:10px;margin-bottom:8px">
         <label>Section <span id="secHost"></span></label>
         <button id="addRow" class="secondary">Add Lab</button>
-        <button id="save">Save</button>
+        <button id="syncNow">🔄 Sync Now</button>
         <button id="load">Reload</button>
       </div>
       <table id="tbl"><thead><tr><th>Lab Name</th><th>Lab Teacher</th><th>Actions</th></tr></thead><tbody></tbody></table>
-      <div class="hint" style="margin-top:8px">Saved as {"3A":[["OS-LAB","Teacher"], ...]}.</div>
     `);
             const status = document.getElementById('status');
             const secHost = document.getElementById('secHost');
             const tbody = document.querySelector('#tbl tbody');
-
-            async function ensureRefs() {
-                if (!state.cache.semesters) { const s = await api(PATH.semesters); state.cache.semesters = y?.data || {}; }
-                if (!state.cache.teachers) { const t = await api(PATH.teachers); state.cache.teachers = t?.data || {}; state.lists.teachers = Object.keys(state.cache.teachers || {}).sort(); }
-                state.lists.sections = buildSectionList(state.cache.semesters);
-            }
-
+            
             let currentSection = '';
             let secSS = null;
+            
+            // Helper to collect and save labs
+            function collectAndSaveLabs() {
+                const s = currentSection;
+                state.cache.labs = state.cache.labs || {};
+                state.cache.labs[s] = [];
+                tbody.querySelectorAll('tr').forEach(tr => {
+                    const lab = tr.children[0].querySelector('input')?.value.trim() || '';
+                    const t = tr.children[1].querySelector('.sselect-value')?.textContent.trim() || '';
+                    if (lab && t) state.cache.labs[s].push([lab, t]);
+                });
+                autoSave();
+            }
+            
+            // Create auto-save function for labs
+            const autoSave = createAutoSave(
+                PATH.labs,
+                'labs',
+                () => state.cache.labs || {},
+                (msg) => { if (status) status.textContent = msg; }
+            );
+
+            async function ensureRefs() {
+                if (!state.cache.semesters) { 
+                    const localSemesters = StorageManager.loadLocal('semesters');
+                    if (localSemesters) {
+                        state.cache.semesters = localSemesters;
+                    } else {
+                        try {
+                            const s = await apiWithStorage(PATH.semesters, {}, 'semesters');
+                            state.cache.semesters = s?.data || s || {};
+                        } catch (e) {
+                            state.cache.semesters = {};
+                        }
+                    }
+                }
+                if (!state.cache.teachers) { 
+                    const localTeachers = StorageManager.loadLocal('teachers');
+                    if (localTeachers) {
+                        state.cache.teachers = localTeachers;
+                    } else {
+                        try {
+                            const t = await apiWithStorage(PATH.teachers, {}, 'teachers');
+                            state.cache.teachers = t?.data || t || {};
+                        } catch (e) {
+                            state.cache.teachers = {};
+                        }
+                    }
+                    state.lists.teachers = Object.keys(state.cache.teachers || {}).sort();
+                }
+                state.lists.sections = buildSectionList(state.cache.semesters);
+            }
 
             function draw(section) {
                 tbody.innerHTML = '';
@@ -1202,29 +2529,50 @@
                 const tr = document.createElement('tr');
                 const tSelHost = document.createElement('div');
                 tr.innerHTML = `<td><input type="text" value="${labVal}" placeholder="LAB-NAME" style="width:100%"></td>`;
-                const tdTeacher = document.createElement('td'); tdTeacher.appendChild(tSelHost);
-                const tdAct = document.createElement('td'); const btn = document.createElement('button'); btn.textContent = 'Delete'; btn.className = 'warn'; btn.onclick = () => tr.remove(); tdAct.appendChild(btn);
-                tr.appendChild(tdTeacher); tr.appendChild(tdAct);
+                const labInput = tr.querySelector('input[type="text"]');
+                labInput.addEventListener('input', debounce(collectAndSaveLabs, 500));
+                labInput.addEventListener('blur', collectAndSaveLabs);
+                
+                const tdTeacher = document.createElement('td'); 
+                tdTeacher.appendChild(tSelHost);
+                const tdAct = document.createElement('td'); 
+                const btn = document.createElement('button'); 
+                btn.textContent = 'Delete'; 
+                btn.className = 'warn'; 
+                btn.onclick = () => {
+                    tr.remove();
+                    collectAndSaveLabs();
+                };
+                tdAct.appendChild(btn);
+                tr.appendChild(tdTeacher); 
+                tr.appendChild(tdAct);
                 tbody.appendChild(tr);
                 const defaultT = pickPreferredTeacher(state.lists.teachers);
-                searchableSelect(tSelHost, state.lists.teachers, (teacherVal || defaultT || state.lists.teachers[0] || ''), () => { }, "Search teacher...");
+                searchableSelect(tSelHost, state.lists.teachers, (teacherVal || defaultT || state.lists.teachers[0] || ''), () => {
+                    collectAndSaveLabs();
+                }, "Search teacher...");
             }
 
             document.getElementById('addRow').onclick = () => addRow();
-            document.getElementById('save').onclick = async () => {
+            document.getElementById('syncNow').onclick = async () => {
                 try {
-                    const s = currentSection;
-                    state.cache.labs[s] = [];
-                    tbody.querySelectorAll('tr').forEach(tr => {
-                        const lab = tr.children[0].querySelector('input').value.trim();
-                        const t = tr.children[1].querySelector('.sselect-value').textContent.trim();
-                        if (lab && t) state.cache.labs[s].push([lab, t]);
-                    });
-                    status.textContent = 'Saving...';
-                    await api(PATH.labs, { method: 'PUT', body: { data: state.cache.labs } });
-                    status.textContent = 'Saved';
-                    alert('Saved lab subjects');
-                } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+                    collectAndSaveLabs();
+                    status.textContent = 'Syncing...';
+                    const result = await apiWithStorage(
+                        PATH.labs, 
+                        { method: 'PUT', body: { data: state.cache.labs } },
+                        'labs'
+                    );
+                    if (result && result.savedLocally) {
+                        status.textContent = 'Queued for sync (offline)';
+                    } else {
+                        status.textContent = 'Synced';
+                        setTimeout(() => { if (status) status.textContent = 'Ready'; }, 2000);
+                    }
+                } catch (e) { 
+                    status.textContent = 'Sync error';
+                    console.error('Sync failed:', e);
+                }
             };
             document.getElementById('load').onclick = load;
 
@@ -1232,12 +2580,35 @@
                 try {
                     status.textContent = 'Loading...';
                     await ensureRefs();
-                    secSS = searchableSelect(secHost, state.lists.sections, state.lists.sections[0] || '', (val) => { currentSection = val; draw(val); }, "Search section...");
-                    const res = await api(PATH.labs);
-                    state.cache.labs = res?.data || {};
-                    currentSection = secSS.value;
-                    draw(currentSection);
-                    status.textContent = 'Loaded';
+                    secSS = searchableSelect(secHost, state.lists.sections, state.lists.sections[0] || '', (val) => { 
+                        currentSection = val; 
+                        draw(val);
+                    }, "Search section...");
+                    
+                    // Try to load from localStorage first
+                    const localData = StorageManager.loadLocal('labs');
+                    if (localData !== null) {
+                        state.cache.labs = localData;
+                        currentSection = secSS.value;
+                        draw(currentSection);
+                        status.textContent = 'Loaded from cache';
+                    }
+                    
+                    // Then try to sync with server
+                    try {
+                        const res = await apiWithStorage(PATH.labs, {}, 'labs');
+                        if (res.fromCache) {
+                            status.textContent = 'Loaded from cache (offline)';
+                        } else {
+                            state.cache.labs = res?.data || state.cache.labs || {};
+                            currentSection = secSS.value;
+                            draw(currentSection);
+                            status.textContent = 'Loaded & synced';
+                        }
+                    } catch (e) {
+                        if (localData === null) throw e;
+                        console.warn('Using cached data due to network error:', e);
+                    }
                 } catch (e) { status.textContent = 'Error'; alert('Load failed: ' + e.message); }
             }
             await load();
@@ -1248,17 +2619,17 @@
             // Build panel
             panel.innerHTML = `
     <div class="toolbar"><strong>Prebooked Slots (Teacher + Section + Subject)</strong><span class="status" id="status"></span></div>
+    <div class="hint" style="margin:6px 0 10px">Changes are auto-saved. Select a teacher first; only that teacher's assigned sections/subjects are available. Click cells to toggle exact prebooks.</div>
     <div class="center">
       <div class="toolbar-row" style="margin-bottom:8px">
         <div class="group"><label>Teacher</label><span id="tHost"></span></div>
         <div class="group"><label>Section</label><span id="sHost"></span></div>
         <div class="group"><label>Subject</label><span id="subHost"></span></div>
         <div class="group">
-          <button id="preSave">Save</button>
+          <button id="syncNow">🔄 Sync Now</button>
           <button id="preLoad">Reload</button>
         </div>
       </div>
-      <div class="hint" style="margin:4px 0 10px">Select a teacher first; only that teacher’s assigned sections/subjects are available. Click cells to toggle exact prebooks.</div>
       <div id="grid" style="width:100%"></div>
       <div style="margin-top:12px; width:100%">
         <div class="hint">Current prebooks for selected teacher:</div>
@@ -1274,20 +2645,91 @@
             const subHost = document.getElementById('subHost');
             const grid = document.getElementById('grid');
             const chips = document.getElementById('chips');
-            const btnSave = document.getElementById('preSave');
+            const btnSyncNow = document.getElementById('syncNow');
             const btnLoad = document.getElementById('preLoad');
 
-            if (!status || !tHost || !sHost || !subHost || !grid || !chips || !btnSave || !btnLoad) {
+            if (!status || !tHost || !sHost || !subHost || !grid || !chips || !btnSyncNow || !btnLoad) {
                 throw new Error('Prebooked controls missing from DOM');
             }
+            
+            // Create auto-save function for prebooked
+            const autoSave = createAutoSave(
+                PATH.prebooked,
+                'prebooked',
+                () => state.cache.prebooked || {},
+                (msg) => { if (status) status.textContent = msg; }
+            );
 
             // Ensure prerequisites
             async function ensureRefs() {
-                if (!state.cache.constants) { state.cache.constants = await api(PATH.constants); }
-                if (!state.cache.semesters) { const s = await api(PATH.semesters); state.cache.semesters = y?.data || {}; }
-                if (!state.cache.subjects) { const s = await api(PATH.subjects); state.cache.subjects = s?.data || {}; state.lists.subjectsBySemester = state.cache.subjects; }
-                if (!state.cache.teachers) { const t = await api(PATH.teachers); state.cache.teachers = t?.data || {}; }
-                if (!state.cache.prebooked) { const pb = await api(PATH.prebooked); state.cache.prebooked = pb?.data || {}; }
+                // Load from cache first, then try API
+                if (!state.cache.constants) { 
+                    const localConstants = StorageManager.loadLocal('constants');
+                    if (localConstants) {
+                        state.cache.constants = localConstants;
+                    } else {
+                        try {
+                            const result = await apiWithStorage(PATH.constants, {}, 'constants');
+                            // Constants endpoint returns data directly
+                            state.cache.constants = result.fromCache ? result : (result || { DAYS: 5, PERIODS: 6, MAX_THEORY_PASSES: 10, DEBUG_PLACEMENT: true });
+                        } catch (e) {
+                            state.cache.constants = { DAYS: 5, PERIODS: 6, MAX_THEORY_PASSES: 10, DEBUG_PLACEMENT: true };
+                        }
+                    }
+                }
+                if (!state.cache.semesters) { 
+                    const localSemesters = StorageManager.loadLocal('semesters');
+                    if (localSemesters) {
+                        state.cache.semesters = localSemesters;
+                    } else {
+                        try {
+                            const s = await apiWithStorage(PATH.semesters, {}, 'semesters');
+                            state.cache.semesters = s?.data || s || {};
+                        } catch (e) {
+                            state.cache.semesters = {};
+                        }
+                    }
+                }
+                if (!state.cache.subjects) { 
+                    const localSubjects = StorageManager.loadLocal('subjects');
+                    if (localSubjects) {
+                        state.cache.subjects = localSubjects;
+                    } else {
+                        try {
+                            const s = await apiWithStorage(PATH.subjects, {}, 'subjects');
+                            state.cache.subjects = s?.data || s || {};
+                        } catch (e) {
+                            state.cache.subjects = {};
+                        }
+                    }
+                    state.lists.subjectsBySemester = state.cache.subjects;
+                }
+                if (!state.cache.teachers) { 
+                    const localTeachers = StorageManager.loadLocal('teachers');
+                    if (localTeachers) {
+                        state.cache.teachers = localTeachers;
+                    } else {
+                        try {
+                            const t = await apiWithStorage(PATH.teachers, {}, 'teachers');
+                            state.cache.teachers = t?.data || t || {};
+                        } catch (e) {
+                            state.cache.teachers = {};
+                        }
+                    }
+                }
+                if (!state.cache.prebooked) { 
+                    const localPrebooked = StorageManager.loadLocal('prebooked');
+                    if (localPrebooked) {
+                        state.cache.prebooked = localPrebooked;
+                    } else {
+                        try {
+                            const pb = await apiWithStorage(PATH.prebooked, {}, 'prebooked');
+                            state.cache.prebooked = pb?.data || pb || {};
+                        } catch (e) {
+                            state.cache.prebooked = {};
+                        }
+                    }
+                }
                 state.lists.teachers = Object.keys(state.cache.teachers || {}).sort();
                 state.lists.sections = Object.keys(state.cache.semesters || {}).flatMap(y => (state.cache.semesters[y] || []).map(s => `${y}${s}`)).sort();
                 // Build byTeacher map
@@ -1332,6 +2774,7 @@
                 if (makeOn && idx === -1) { arr.push({ day, period, section_id: section, subject }); }
                 if (!makeOn && idx > -1) { arr.splice(idx, 1); }
                 state.cache.prebooked[teacher] = arr;
+                autoSave();
             }
 
             function drawGrid(teacher, section, subject) {
@@ -1399,6 +2842,7 @@
                         state.cache.prebooked[teacher] = arr;
                         drawGrid(tSS.value, sSS.value, subSS.value);
                         drawChips(teacher);
+                        autoSave();
                     };
                 });
             }
@@ -1446,23 +2890,54 @@
                         drawChips(tSS.value);
                     }
 
-                    // Bind save/reload
-                    btnSave.onclick = async () => {
+                    // Bind sync/reload
+                    btnSyncNow.onclick = async () => {
                         try {
-                            status.textContent = 'Saving...';
-                            await api(PATH.prebooked, { method: 'PUT', body: { data: state.cache.prebooked || {} } });
-                            status.textContent = 'Saved';
-                            alert('Saved prebooked slots');
-                        } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+                            status.textContent = 'Syncing...';
+                            const result = await apiWithStorage(
+                                PATH.prebooked, 
+                                { method: 'PUT', body: { data: state.cache.prebooked || {} } },
+                                'prebooked'
+                            );
+                            if (result && result.savedLocally) {
+                                status.textContent = 'Queued for sync (offline)';
+                            } else {
+                                status.textContent = 'Synced';
+                                setTimeout(() => { if (status) status.textContent = 'Ready'; }, 2000);
+                            }
+                        } catch (e) { 
+                            status.textContent = 'Sync error';
+                            console.error('Sync failed:', e);
+                        }
                     };
                     btnLoad.onclick = async () => {
                         try {
                             status.textContent = 'Loading...';
-                            const pb = await api(PATH.prebooked);
-                            state.cache.prebooked = pb?.data || {};
-                            drawGrid(tSS.value, sSS.value, subSS.value);
-                            drawChips(tSS.value);
-                            status.textContent = 'Loaded';
+                            
+                            // Try to load from localStorage first
+                            const localData = StorageManager.loadLocal('prebooked');
+                            if (localData !== null) {
+                                state.cache.prebooked = localData;
+                                drawGrid(tSS.value, sSS.value, subSS.value);
+                                drawChips(tSS.value);
+                                status.textContent = 'Loaded from cache';
+                            }
+                            
+                            // Then try to sync with server
+                            try {
+                                const pb = await apiWithStorage(PATH.prebooked, {}, 'prebooked');
+                                if (pb.fromCache) {
+                                    status.textContent = 'Loaded from cache (offline)';
+                                } else {
+                                    state.cache.prebooked = pb?.data || state.cache.prebooked || {};
+                                    drawGrid(tSS.value, sSS.value, subSS.value);
+                                    drawChips(tSS.value);
+                                    status.textContent = 'Loaded & synced';
+                                }
+                            } catch (e) {
+                                if (localData === null) throw e;
+                                console.warn('Using cached data due to network error:', e);
+                            }
                         } catch (e) { status.textContent = 'Error'; alert('Reload failed: ' + e.message); }
                     };
 
@@ -1481,6 +2956,7 @@
         async function renderConstants() {
             r(`
       <div class="toolbar"><strong style="margin-left:8px">Constants</strong>${statusBar()}</div>
+      <div class="hint" style="margin:6px 0 10px">Changes are auto-saved.</div>
       <div class="cols-2">
         <div>
           <label>DAYS</label><input id="c_days" type="number" min="1" />
@@ -1489,7 +2965,7 @@
           <label>DEBUG_PLACEMENT</label><select id="c_debug"><option value="true">true</option><option value="false">false</option></select>
           <div class="row" style="margin-top:10px">
             <button id="btnLoad" class="secondary">Load</button>
-            <button id="btnSave">Save</button>
+            <button id="syncNow">🔄 Sync Now</button>
           </div>
         </div>
         <div><div class="hint">Controls days, periods, and iteration passes for scheduling.</div></div>
@@ -1497,25 +2973,135 @@
     `);
             const status = document.getElementById('status');
             const ids = (k) => document.getElementById(k);
+            
+            // Helper function to get constants payload
+            function getConstantsPayload() {
+                return {
+                    DAYS: parseInt(ids('c_days').value, 10) || 5,
+                    PERIODS: parseInt(ids('c_periods').value, 10) || 6,
+                    MAX_THEORY_PASSES: parseInt(ids('c_passes').value, 10) || 10,
+                    DEBUG_PLACEMENT: ids('c_debug').value === 'true'
+                };
+            }
+            
+            // Create auto-save function for constants (special handling - constants sent directly, not wrapped)
+            const autoSaveConstants = debounce(async () => {
+                try {
+                    const payload = getConstantsPayload();
+                    state.cache.constants = payload;
+                    if (status) status.textContent = 'Saving...';
+                    
+                    // Constants endpoint sends payload directly (not wrapped in {data: ...})
+                    try {
+                        await api(PATH.constants, { method: 'PUT', body: payload });
+                        // Save to localStorage and clear from sync queue on success
+                        StorageManager.saveLocal('constants', payload);
+                        const queue = StorageManager.getSyncQueue();
+                        const filtered = queue.filter(item => item.path !== PATH.constants);
+                        if (filtered.length !== queue.length) {
+                            localStorage.setItem(StorageManager.SYNC_QUEUE_KEY, JSON.stringify(filtered));
+                            updateSyncStatus();
+                        }
+                        
+                        if (status) {
+                            status.textContent = 'Auto-saved';
+                            setTimeout(() => {
+                                const statusEl = document.getElementById('status');
+                                if (statusEl && statusEl.textContent === 'Auto-saved') {
+                                    statusEl.textContent = 'Ready';
+                                }
+                            }, 2000);
+                        }
+                    } catch (e) {
+                        // Network error - save locally and queue for sync
+                        StorageManager.saveLocal('constants', payload);
+                        StorageManager.addToSyncQueue(PATH.constants, payload);
+                        updateSyncStatus();
+                        if (status) status.textContent = 'Saved locally (offline)';
+                    }
+                } catch (e) {
+                    console.error('[Auto-save] Failed for constants:', e);
+                    const payload = getConstantsPayload();
+                    state.cache.constants = payload;
+                    StorageManager.saveLocal('constants', payload);
+                    if (status) status.textContent = 'Save error';
+                }
+            }, 1500);
+            
+            // Add auto-save listeners to all inputs
+            ['c_days', 'c_periods', 'c_passes', 'c_debug'].forEach(id => {
+                const el = ids(id);
+                if (el) {
+                    el.addEventListener('input', () => {
+                        state.cache.constants = getConstantsPayload();
+                        autoSaveConstants();
+                    });
+                    el.addEventListener('change', () => {
+                        state.cache.constants = getConstantsPayload();
+                        autoSaveConstants();
+                    });
+                }
+            });
 
             document.getElementById('btnLoad').onclick = async () => {
                 try {
                     status.textContent = 'Loading...';
-                    const c = await api(PATH.constants);
-                    ids('c_days').value = c.DAYS; ids('c_periods').value = c.PERIODS; ids('c_passes').value = c.MAX_THEORY_PASSES; ids('c_debug').value = String(c.DEBUG_PLACEMENT);
-                    state.cache.constants = c;
-                    status.textContent = 'Loaded';
+                    
+                    // Try to load from localStorage first
+                    const localData = StorageManager.loadLocal('constants');
+                    if (localData !== null) {
+                        const c = localData;
+                        ids('c_days').value = c.DAYS; ids('c_periods').value = c.PERIODS; ids('c_passes').value = c.MAX_THEORY_PASSES; ids('c_debug').value = String(c.DEBUG_PLACEMENT);
+                        state.cache.constants = c;
+                        status.textContent = 'Loaded from cache';
+                    }
+                    
+                    // Then try to sync with server
+                    try {
+                        const c = await apiWithStorage(PATH.constants, {}, 'constants');
+                        // Constants endpoint returns data directly, not wrapped
+                        const constantsData = c.fromCache ? c : (c || {});
+                        if (!c.fromCache || !localData) {
+                            ids('c_days').value = constantsData.DAYS || 5; 
+                            ids('c_periods').value = constantsData.PERIODS || 6; 
+                            ids('c_passes').value = constantsData.MAX_THEORY_PASSES || 10; 
+                            ids('c_debug').value = String(constantsData.DEBUG_PLACEMENT !== undefined ? constantsData.DEBUG_PLACEMENT : true);
+                            state.cache.constants = constantsData;
+                            status.textContent = c.fromCache ? 'Loaded from cache (offline)' : 'Loaded & synced';
+                        }
+                    } catch (e) {
+                        if (localData === null) throw e;
+                        console.warn('Using cached data due to network error:', e);
+                    }
                 } catch (e) { status.textContent = 'Error'; alert('Load failed: ' + e.message); }
             };
-            document.getElementById('btnSave').onclick = async () => {
+            document.getElementById('syncNow').onclick = async () => {
                 try {
-                    status.textContent = 'Saving...';
-                    const payload = { DAYS: parseInt(ids('c_days').value, 10), PERIODS: parseInt(ids('c_periods').value, 10), MAX_THEORY_PASSES: parseInt(ids('c_passes').value, 10), DEBUG_PLACEMENT: ids('c_debug').value === 'true' };
-                    await api(PATH.constants, { method: 'PUT', body: payload });
+                    const payload = { 
+                        DAYS: parseInt(ids('c_days').value, 10) || 5, 
+                        PERIODS: parseInt(ids('c_periods').value, 10) || 6, 
+                        MAX_THEORY_PASSES: parseInt(ids('c_passes').value, 10) || 10, 
+                        DEBUG_PLACEMENT: ids('c_debug').value === 'true' 
+                    };
+                    status.textContent = 'Syncing...';
+                    const result = await apiWithStorage(
+                        PATH.constants, 
+                        { method: 'PUT', body: payload },
+                        'constants'
+                    );
+                    // For constants, the API doesn't return data in the same format, so we save the payload
+                    StorageManager.saveLocal('constants', payload);
                     state.cache.constants = payload;
-                    status.textContent = 'Saved';
-                    alert('Saved constants');
-                } catch (e) { status.textContent = 'Error'; alert('Save failed: ' + e.message); }
+                    if (result && result.savedLocally) {
+                        status.textContent = 'Queued for sync (offline)';
+                    } else {
+                        status.textContent = 'Synced';
+                        setTimeout(() => { if (status) status.textContent = 'Ready'; }, 2000);
+                    }
+                } catch (e) { 
+                    status.textContent = 'Sync error';
+                    console.error('Sync failed:', e);
+                }
             };
 
             if (state.cache.constants) {
